@@ -5,6 +5,37 @@ from django.contrib.auth.models import User
 # Create your models here.
 from django.db import models
 
+#class RegisterForm(forms.Form):
+#	username = forms.CharField(lebel = "Nobre de Usuario",widget=forms.TextImput())
+#	email    = forms.CharField(lebel = "Correo Electronico",widget=forms.TextImput())
+#	password_one = forms.CharField(lebel = "password",widget=forms.PasswordImput(render_value=False))
+#	password_two = forms.CharField(lebel = "Confirmar password",widget=forms.PasswordImput(render_value=False))
+
+#	def clean_username(self):
+#		username = self.cleaned_data['username']
+#		try:
+#			u = user.objects.get(username=username)
+#		except user.DoesNotExist:
+#			return username
+#		raise froms.ValidationError('Nombre de Usuario ya existe')
+
+#	def clean_email(self):
+#		email = self.cleaned_data['email']
+#		try:
+#			u = user.objects.get(email=email)
+#		except user.DoesNotExist:
+#			return email
+#		raise froms.ValidationError('Email ya registrado')
+
+#	def clean_password_two(self):
+#		password_one = self.cleaned_data['password_one']
+#		password_two = self.cleaned_data['password_two']
+#		
+#		if password_one == password_two:
+#			pass
+#		else:
+#			raise forms.ValidationError('password no coinciden')
+
 
 class Departamento(models.Model):
 	nombre 		= models.CharField(max_length=50)
@@ -82,10 +113,18 @@ class Sede(models.Model):
 		return self.nombre_sede
 
 class Salida(models.Model):
+	traslados = (
+			(u'traslado',u'traslado'),
+			(u'cliente',u'cliente'),
+			(u'reparacion',u'reparacion'),
+		)
 	fecha_salida = models.DateField(auto_now = True)
-	tipo_salida = models.CharField(max_length=50)
+	tipo_salida = models.CharField(max_length=50, choices = traslados, default = "traslado")
 	codigobarras = models.ForeignKey(CodigoBarras)
 	cantidad = models.IntegerField()
+	sede = models.ForeignKey(Sede)
+	descripcion = models.CharField(max_length=150)
+	numero_contrato = models.IntegerField()
 
 
 	def __unicode__(self):
