@@ -1,5 +1,5 @@
 from django.contrib import admin
-from sif.apps.home.models import *
+from sif.apps.inventario.models import *
 
 admin.site.register(Usuario)
 admin.site.register(Proveedor)
