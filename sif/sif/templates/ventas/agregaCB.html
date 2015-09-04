@@ -1,0 +1,11 @@
+{% block title %}
+    Agregar Codigo de Barras
+{% endblock %}
+
+{% block content %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}
