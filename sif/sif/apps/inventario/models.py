@@ -62,7 +62,7 @@ class CodigoBarras(models.Model):
 class Producto(models.Model):
 	nombre = models.CharField(max_length=50)
 	referencia = models.CharField(max_length=50)
-	fecha_ingreso = models.DateField()
+	fecha_ingreso = models.DateField(auto_now = True)
 	ancho = models.CharField(max_length=10)
 	largo = models.CharField(max_length=10)
 	proveedor = models.ForeignKey(Proveedor)
