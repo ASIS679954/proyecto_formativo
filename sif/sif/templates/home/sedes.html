@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar sedes
+
+{% endblock %}
+
+{% block content %}
+	<h1>Lista de Sedes</h1>
+	<br>
+	<a href="{% url 'vista_agregar_sede' %}"> Agregar una nueva sede</a>
+	{% if sede %}
+		{% for p in sede %}	
+			<p>
+				Sede : {{p.nombre_sede}}
+				Telefono :{{p.telefono}}
+				<a href="/sede/{{p.id}}"> Ver </a>
+				<a href="/edit/sede/{{ p.id }}"> Editar </a>
+
+			</p>
+		{% endfor%}
+	{% else %}
+		<h2> No existen sedes </h2>
+	{% endif %}
+
+{% endblock %}

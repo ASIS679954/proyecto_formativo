@@ -1,0 +1,15 @@
+{% extends 'base.html '%}
+
+{% block title %}
+	Sede 
+{% endblock %}
+
+{% block content %}
+	
+	<p><b>Nombre:</b> {{ sede.nombre_sede }} </p>
+	<p><b>Direccion:</b> {{ sede.direccion }} </p>
+	<p><b>Telefono:</b> {{ sede.telefono }} </p>
+
+	<br>
+	<a href="/sedes">Mostrar la lista de Sedes</a>
+{% endblock %}
