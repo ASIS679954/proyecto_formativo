@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %} Titulo Base {% endblock %}</title>
+</head>
+<body>
+	<header>
+		
+		<h1>Proyecto inventario funeraria </h1>
+		<nav>
+			<a href="{% url 'vista_index' %}">Inicio</a>
+			<a href="{% url 'vista_productos'%}">Productos</a>
+			
+		</nav>	
+	</header>
+	<section>
+		{% block content%}
+		{% endblock %}
+	</section>
+</body>
+</html>

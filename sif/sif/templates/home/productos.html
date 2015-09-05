@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+	CRUD Productos
+{% endblock %}
+
+{% block content %}
+ 	<h2>Listar de Producto</h2>
+ 	<br>
+ 	<a href="{% url 'vista_agregar_producto' %}"> Agregar un nuevo producto </a>
+ 	{% if Producto %}
+ 		{% for p in Producto %}
+			<p> 
+				Nombre         : {{ p.nombre }}
+				Referencia     : {{ p.refrencia }}
+				Fecha ingreso  : {{ p.fecha_ingreso }}
+				Proveedor      : {{ p.proveedor }}
+				CodigoBarra    : {{ p.codigobarrar }}
+				Valor          : {{p.valor}}
+				<a href="/producto/{{p.id}}"> Ver </a>
+				<a class = "btn" href = "/edit/producto/{{p.id}}"> Editar </a>
+				<a class = "btn" href = "/del/producto/{{ p.id}}"> Eliminar </a>
+			</p>
+ 		{% endfor %}	
+ 	{% else %}
+ 		<h3> No Exiten productos </h3>	
+ 	{% endif %}
+{% endblock %} 		
