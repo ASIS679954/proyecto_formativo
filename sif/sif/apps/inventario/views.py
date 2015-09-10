@@ -28,6 +28,6 @@ def creaCodigo(request):
 
 def ver_unico(request,id_cofre):
 	cofre = CodigoBarras.objects.get(id=id_cofre)
-	pp = Producto.objects.all().codigobarras
+	pp = Producto.objects.select_related().get(id)
 	ctx = {'cofre':cofre,'pp':pp}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
