@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar operarios
+
+{% endblock %}
+
+{% block content %}
+	<h1> Lista de operarios </h1>
+	<br>
+	<a href="{% url 'vista_agregar_operador' %}"> Agregar un nuevo operador</a>
+	{% if opera %}
+		{% for p in opera %}	
+			<p>
+				nombre: {{p.nombre}}
+				telefono :{{p.telefono}}
+				<a href="/operador/{{p.id}}"> Ver </a>
+				<a href="/edit/operador/{{p.id}}" > Editar </a>
+				<a href="/inh/operador/{{p.id}}">inhabilitar </a>
+			</p>
+		{% endfor%}
+	{% else %}
+		<h2> No existen operadores</h2>
+	{% endif %}
+
+{% endblock %}

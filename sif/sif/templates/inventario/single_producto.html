@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	producto
+{% endblock %}
+
+{% block content %}
+	<h1>{{ producto.nombre }}</h1>
+	<br>
+	<p><b>Referencia:</b> {{ producto.referencia }} </p>
+	<p><b>Fecha ingreso:</b> {{ producto.fecha_ingreso }} </p>
+	<p><b>Ancho:</b> {{ producto.ancho }} </p>
+	<p><b>Largo:</b> {{ producto.largo }} </p>
+	<p><b>Proveedor:</b> {{ producto.proveedor }} </p>
+	<p><b>Codigo de Barras:</b> {{ producto.codigobarras }} </p>
+	<p><b>Descripcion:</b> {{ producto.descripcion }} </p>
+	<p><b>Precio:</b> {{ producto.valor }} </p>
+	<p><b>Cantidad:</b> {{ producto.cantidad }}</p>
+	{%for c in categorias %}
+		<span class ="label label-info">{{ c.nombre }}</span>
+	{% endfor %}
+	
+	<br>
+	<a href="/producto/">Mostrar la lista de Productos</a>
+{% endblock %}	

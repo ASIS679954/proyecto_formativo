@@ -1,0 +1,54 @@
+{% extends 'base.html '%}
+
+{% block title %}
+	Generar reportes
+{% endblock %}
+
+{% block content %}
+	<form action="." method="POST" enctype = "multiplar/form-data">
+		{% csrf_token %}
+		{{ form.as_p}}
+		<button type="submit" >Generar</button>
+		<input type="reset" value="Limpiar">
+	</form>
+
+	<br>
+	{% if reporte %}
+		<p> Reporte por {{opc}}</p>
+			{% if opc == "entrada" %}
+				{% for p in reporte %}
+				
+					<p> nombre = {{p.nombre}} </p>
+					<p> referencia = {{p.referencia}}</p>
+					<p> fecha ingreso = {{p.fecha_ingreso}}</p>
+					<p> ancho = {{p.ancho}}</p>
+					<p> largo = {{p.largo}}</p>
+					<p> proveedor = {{p.proveedor}}</p>
+					<p> codigobarras = {{p.codigobarras}}</p>
+					<p> valor = {{p.valor}}</p>
+					<p> descripcion = {{p.descripcion}}</p>
+					<p> cantidad	= {{p.cantidad}}</p>
+				{% endfor %}	
+			{% endif %}
+
+			{% if opc == "salida" %}
+				{% for p in reporte %}
+					<p> fecha salida = {{p.fecha_salida}}</p>
+					<p> tipo salida = {{p.tipo_salida}}</p>
+					<p> codigo de barras = {{p.codigobarras}}</p>
+					<p> cantidad = {{p.cantidad}}</p>
+					<p> sede = {{p.sede}}</p>
+					<p> descripcion = {{p.descripcion}}</p>
+					<p> numero_contrato = {{numero_contrato}}</p>
+				{% endfor %}	
+			{% endif %}
+
+
+
+		
+	{% else %}
+		<h3>No existen entradas disponibles</h3>
+	{% endif %}
+	
+
+{% endblock %}
