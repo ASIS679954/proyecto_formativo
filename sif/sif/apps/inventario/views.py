@@ -37,6 +37,7 @@ def edit_product_view(request, id_prod):
 	return render_to_response ('inventario/edit_product.html', ctx,context_instance = RequestContext(request))
 
 def del_product_view(request, id_prod):
+	
 	info = "inicializando"
 	try:
 		prod = Producto.objects.get(pk = id_prod)

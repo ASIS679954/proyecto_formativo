@@ -2,6 +2,22 @@
 <html>
 <head>
 	<title>{% block title %} Titulo Base {% endblock %}</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+			<script type="text/javascript">
+		$(document).ready(function(){
+			$("#guardar").click(function(e){
+				
+				var advertencia = confirm("¿Desea guardar los cambios?");
+				if (advertencia == true){
+					return true;
+				}else{
+					return false;	
+				}
+				
+			});	
+		});
+		
+	</script>
 </head>
 <body>
 	<header>
