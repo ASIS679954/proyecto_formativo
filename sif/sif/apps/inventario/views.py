@@ -37,13 +37,18 @@ def edit_product_view(request, id_prod):
 	return render_to_response ('inventario/edit_product.html', ctx,context_instance = RequestContext(request))
 
 def del_product_view(request, id_prod):
+
+	if user.is_autheticated and user.is_staff:
+		info = "inicializando"
+		try:
+			prod = Producto.objects.get(pk = id_prod)
+			prod.delete()
+			info = "Producto Eliminado Correctamente"
+			return HttpResponseRedirect('/producto/')
+		except:
+			info = "Producto no se puede eliminar"	
+			return HttpResponseRedirect('/producto/')
+	else: 
+		return HttpResponseRedirect('/producto/')
 	
-	info = "inicializando"
-	try:
-		prod = Producto.objects.get(pk = id_prod)
-		prod.delete()
-		info = "Producto Eliminado Correctamente"
-		return HttpResponseRedirect('/producto/')
-	except:
-		info = "Producto no se puede eliminar"	
-		return HttpResponseRedirect('/producto/')
+	

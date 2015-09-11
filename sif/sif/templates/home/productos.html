@@ -18,7 +18,9 @@
 				Valor          : {{p.valor}}
 				<a href="/producto/{{p.id}}"> Ver </a>
 				<a class = "btn" href = "/edit/producto/{{p.id}}"> Editar </a>
+				{% if user.is_autheticated %}
 				<a class = "btn" href = "/alerta/{{p.id}}"> Eliminar </a>
+				{% endif %}
 			</p>
  		{% endfor %}	
  	{% else %}
