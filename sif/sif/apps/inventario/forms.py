@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from sif.apps.inventario.models import *
 from django import forms
 
@@ -39,3 +40,11 @@ class add_product_form(forms.ModelForm):
 	class Meta:
 		model  = Producto
 
+=======
+from django import forms
+from sif.apps.inventario.models import CodigoBarras
+class FormuCrea(forms.ModelForm):
+	class Meta:
+		model = CodigoBarras
+	
+>>>>>>> 46010739e8407bdf4c7b1e657a4b580cf52010d7

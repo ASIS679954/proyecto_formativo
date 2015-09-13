@@ -3,6 +3,7 @@ from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns('sif.apps.home.views',
 <<<<<<< HEAD
+<<<<<<< HEAD
 	)
 =======
 	#index
@@ -27,3 +28,6 @@ urlpatterns = patterns('sif.apps.home.views',
 	url(r'^producto/$', 'productos_view', name = 'vista_productos'),
 	) 
 >>>>>>> master
+=======
+	)
+>>>>>>> 46010739e8407bdf4c7b1e657a4b580cf52010d7

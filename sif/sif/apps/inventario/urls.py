@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 from django.conf.urls.defaults import *
 
@@ -32,3 +33,15 @@ urlpatterns = patterns('sif.apps.inventario.views',
 		url(r'^del/producto/(?P<id_prod>.*)/$','del_product_view',name = 'vista_eliminar_producto'),
 
 	)
+=======
+from django.conf.urls import *
+
+
+urlpatterns = patterns('sif.apps.inventario.views',
+    url(r'^agregar/codigoBarras/$','creaCodigo',name = 'vista_agregar_codigo'),
+	url(r'^codigoBarras/(?P<id_cofre>.*)/$','ver_unico',name = 'vista_ver_unico'),
+	
+           
+           
+)
+>>>>>>> 46010739e8407bdf4c7b1e657a4b580cf52010d7
