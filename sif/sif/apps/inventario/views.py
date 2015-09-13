@@ -1,23 +1,13 @@
-<<<<<<< HEAD
 
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from sif.apps.inventario.forms import *
-from sif.apps.inventario.models import *
+from sif.apps.inventario.forms import FormuCrea
+from sif.apps.inventario.models import CodigoBarras
+from sif.apps.inventario.models import Producto
 from django.http import HttpResponseRedirect
-from .forms import FormuCrea
+import barcode
 
-def creaCodigo(request):
-
-	if request.method == 'POST': 
-		form = FormuCrea(request.POST)
-		if form.is_valid():
-			return HttpResponseRedirect('/agregado/')
-	else:
-		form = FormuCrea()
-	return render(request, 'formulario.html',{'form': form})
 
 
 
@@ -266,15 +256,8 @@ def del_product_view(request, id_prod):
 		info = "Producto no se puede eliminar"	
 		return HttpResponseRedirect('/producto/')
 
-=======
-# Create your views here.
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from sif.apps.inventario.forms import FormuCrea
-from sif.apps.inventario.models import CodigoBarras
-from sif.apps.inventario.models import Producto
-from django.http import HttpResponseRedirect
-import barcode
+
+
 
 def creaCodigo(request):
 	
@@ -300,4 +283,4 @@ def ver_unico(request,id_cofre):
 	pp = Producto.objects.all().Codigobarras().count()
 	ctx = {'cofre':cofre,'cantidad':pp}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
->>>>>>> 46010739e8407bdf4c7b1e657a4b580cf52010d7
+
