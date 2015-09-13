@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django.conf.urls.defaults import *
 
 
@@ -32,5 +32,3 @@ urlpatterns = patterns('sif.apps.inventario.views',
 		url(r'^del/producto/(?P<id_prod>.*)/$','del_product_view',name = 'vista_eliminar_producto'),
 
 	)
-	
->>>>>>> master

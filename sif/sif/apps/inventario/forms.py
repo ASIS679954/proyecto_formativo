@@ -1,13 +1,12 @@
-<<<<<<< HEAD
+from sif.apps.inventario.models import *
 from django import forms
 
 class FormuCrea(forms.Form):
 	codigo = models.CharField(label = 'Codigo' , max_length=13)
 	fecha = models.DateField(label = 'Fecha', auto_now = True)
 	
-=======
-from sif.apps.inventario.models import *
-from django import forms
+
+
 
 #Sede
 class add_sede_form(forms.ModelForm):
@@ -39,4 +38,4 @@ class add_prove_form(forms.ModelForm):
 class add_product_form(forms.ModelForm):
 	class Meta:
 		model  = Producto
->>>>>>> master
+

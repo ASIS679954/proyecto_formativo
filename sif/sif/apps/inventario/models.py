@@ -1,43 +1,39 @@
 from django.db import models
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 
-# Create your models here.
-=======
->>>>>>> master
 from django.db import models
 
 
 
 class Departamento(models.Model):
-<<<<<<< HEAD
+
 	nombre 		= models.CharField(max_length=50)
 	municipio 	= models.CharField(max_length=50)
-=======
+
 	nombre 			= models.CharField(max_length=50)
 	municipio 		= models.CharField(max_length=50)
->>>>>>> master
+
 
 	def __unicode__(self):
 		return self.nombre
 
 class Usuario(models.Model):
 	generos = (
-<<<<<<< HEAD
+
 			(u'mascu',u'Masculino'),
 			(u'feme',u'Femenino'),
 			(u'otro',u'Otro'),
-=======
+
 			(u'Masculinoascu',u'Masculino'),
 			(u'Femenino',u'Femenino'),
 			(u'Otro',u'Otro'),
->>>>>>> master
+
 		)
 	identificacion  = models.CharField(max_length = 20, unique = True)
 	nombre 			= models.CharField(max_length=50)
 	apellido 		= models.CharField(max_length=50)
-<<<<<<< HEAD
+
 	#email			= models.CharField(max_length=30)
 	direccion 		= models.CharField(max_length=30)
 	telefono 		= models.CharField(max_length=20)
@@ -45,29 +41,29 @@ class Usuario(models.Model):
     #clave 			= models.CharField(max_length=20)
     #estado 		= models.BooleanField(default = True)
     #userito 		= 
-=======
+
 	direccion 		= models.CharField(max_length=30)
 	telefono 		= models.CharField(max_length=20)
 	sexo 			= models.CharField(max_length=15, choices = generos, default = "Masculino")
  	estado 			= models.BooleanField(default = True)
->>>>>>> master
+
 	def __unicode__(self):
 		return self.nombre
 
 class Rol(models.Model):
-<<<<<<< HEAD
+
 	nombre = models.CharField(max_length=50)
 	usuario = models.ForeignKey(Usuario)
-=======
+
 	nombre 			= models.CharField(max_length=50)
 	usuario 		= models.ForeignKey(Usuario)
->>>>>>> master
+
 
 	def __unicode__(self):
 		return self.nombre
 
 class Proveedor(models.Model):
-<<<<<<< HEAD
+
 	identificacion = models.CharField(max_length=50, unique = True)
 	nombre = models.CharField(max_length=50)
 	apellido = models.CharField(max_length=50)
@@ -75,7 +71,7 @@ class Proveedor(models.Model):
 	direccion = models.CharField(max_length=50)
 	email = models.EmailField()
 	razon_social = models.CharField(max_length=50)
-=======
+
 	identificacion 	= models.CharField(max_length=50, unique = True)
 	nombre 			= models.CharField(max_length=50)
 	apellido 		= models.CharField(max_length=50)
@@ -83,25 +79,25 @@ class Proveedor(models.Model):
 	direccion 		= models.CharField(max_length=50)
 	email 			= models.EmailField()
 	razon_social 	= models.CharField(max_length=50)
->>>>>>> master
+
 
 	def __unicode__(self):
 		return self.nombre
 
 class CodigoBarras(models.Model):
-<<<<<<< HEAD
+
 	codigo = models.CharField(max_length=13)
 	fecha = models.DateField(auto_now = True)
-=======
+
 	codigo 			= models.CharField(max_length=13, unique = True)
 	fecha 			= models.DateField(auto_now = True)
->>>>>>> master
+
 
 	def __unicode__(self):
 		return self.codigo
 
 class Producto(models.Model):
-<<<<<<< HEAD
+
 	nombre = models.CharField(max_length=50)
 	referencia = models.CharField(max_length=50)
 	fecha_ingreso = models.DateField()
@@ -120,7 +116,7 @@ class Sede(models.Model):
 	nombre_sede = models.CharField(max_length = 30)
 	direccion = models.CharField(max_length=30)
 	telefono = models.CharField(max_length=20)
-=======
+
 	nombre 			= models.CharField(max_length=50)
 	referencia 		= models.CharField(max_length=50)
 	fecha_ingreso 	= models.DateField(auto_now = True)
@@ -138,14 +134,14 @@ class Sede(models.Model):
 	nombre_sede 	= models.CharField(max_length = 30)
 	direccion 		= models.CharField(max_length=30)
 	telefono 		= models.CharField(max_length=20)
->>>>>>> master
+
 	
 	def __unicode__(self):
 		return self.nombre_sede
 
 class Salida(models.Model):
 	traslados = (
-<<<<<<< HEAD
+
 			(u'traslado',u'traslado'),
 			(u'cliente',u'cliente'),
 			(u'reparacion',u'reparacion'),
@@ -156,7 +152,7 @@ class Salida(models.Model):
 	cantidad = models.IntegerField()
 	sede = models.ForeignKey(Sede)
 	descripcion = models.CharField(max_length=150)
-=======
+
 			(u'Traslado',u'Traslado'),
 			(u'Cliente',u'Cliente'),
 			(u'Reparacion',u'Reparacion'),
@@ -167,18 +163,18 @@ class Salida(models.Model):
 	cantidad 		= models.IntegerField()
 	sede 			= models.ForeignKey(Sede)
 	descripcion 	= models.TextField(max_length=150)
->>>>>>> master
+
 	numero_contrato = models.IntegerField()
 
 
 	def __unicode__(self):
 		return str(self.fecha_salida)
 
-<<<<<<< HEAD
+
 
 
 		
-=======
+
 class Entrada(models.Model):
 
 	fecha_ingreso	= models.DateField(auto_now = True)
@@ -190,4 +186,4 @@ class Entrada(models.Model):
 		return str(self.fecha_ingreso)
 
 
->>>>>>> master
+

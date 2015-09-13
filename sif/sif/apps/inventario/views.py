@@ -1,8 +1,11 @@
-# Create your views here.
-<<<<<<< HEAD
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from sif.apps.inventario.forms import *
+from sif.apps.inventario.models import *
+from django.http import HttpResponseRedirect
 from .forms import FormuCrea
 
 def creaCodigo(request):
@@ -14,12 +17,8 @@ def creaCodigo(request):
 	else:
 		form = FormuCrea()
 	return render(request, 'formulario.html',{'form': form})
-=======
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from sif.apps.inventario.forms import *
-from sif.apps.inventario.models import *
-from django.http import HttpResponseRedirect
+
+
 
 
 #Sedes
@@ -265,4 +264,4 @@ def del_product_view(request, id_prod):
 	except:
 		info = "Producto no se puede eliminar"	
 		return HttpResponseRedirect('/producto/')
->>>>>>> master
+
