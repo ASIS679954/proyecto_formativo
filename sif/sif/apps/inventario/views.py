@@ -266,9 +266,9 @@ def creaCodigo(request):
 		informacion = "pasa post"
 		formulario = FormuCrea(request.POST)
 		EAN = barcode.get_barcode_class('ean13')
-		stamp = time.time()
-		ean = EAN(stamp)
-		ean.save(stamp)
+		stamp = int(time.time())
+		ean = EAN(u'22222222')
+		ean.save("muestra")
 		agrega = formulario.save(commit = False)
 		agrega.save()
 		informacion = "Terminado"
