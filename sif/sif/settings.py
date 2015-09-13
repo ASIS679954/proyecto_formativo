@@ -138,8 +138,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'sif.apps.home',
     'sif.apps.inventario',
-<<<<<<< HEAD
-=======
+
     'sif.apps.web_services.ws_producto',
     'rest_framework',
 >>>>>>> master
