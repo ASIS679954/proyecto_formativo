@@ -139,6 +139,7 @@ class Sede(models.Model):
 	def __unicode__(self):
 		return self.nombre_sede
 
+
 class Salida(models.Model):
 	traslados = (
 
@@ -152,11 +153,6 @@ class Salida(models.Model):
 	cantidad = models.IntegerField()
 	sede = models.ForeignKey(Sede)
 	descripcion = models.CharField(max_length=150)
-
-			(u'Traslado',u'Traslado'),
-			(u'Cliente',u'Cliente'),
-			(u'Reparacion',u'Reparacion'),
-		)
 	fecha_salida	= models.DateField(auto_now = True)
 	tipo_salida 	= models.CharField(max_length=50,choices = traslados, default = "traslado")
 	producto 		= models.ForeignKey(Producto)

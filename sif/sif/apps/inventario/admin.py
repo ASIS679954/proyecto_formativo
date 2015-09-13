@@ -5,7 +5,7 @@ admin.site.register(Usuario)
 #admin.site.register(Municipio)
 
 #admin.site.register(Transferencia)
-admin.site.register(Salida)
+#admin.site.register(Salida)
 admin.site.register(Rol)
 admin.site.register(Proveedor)
 admin.site.register(Sede)

@@ -2,10 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 
 urlpatterns = patterns('sif.apps.home.views',
-<<<<<<< HEAD
-<<<<<<< HEAD
-	)
-=======
+
 	#index
 	url(r'^$', 'index_view' , name = 'vista_index'),
 	#Sede
@@ -26,8 +23,6 @@ urlpatterns = patterns('sif.apps.home.views',
 	url(r'^alerta/(?P<id_prod>.*)/$', 'alerta_view', name = 'vista_alerta'), 
 	url(r'^producto/(?P<id_prod>.*)/$', 'single_product_view' , name = 'vista_single_producto'),
 	url(r'^producto/$', 'productos_view', name = 'vista_productos'),
-	) 
->>>>>>> master
-=======
-	)
->>>>>>> 46010739e8407bdf4c7b1e657a4b580cf52010d7
+	 
+
+)

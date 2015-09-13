@@ -7,7 +7,7 @@ from sif.apps.inventario.models import CodigoBarras
 from sif.apps.inventario.models import Producto
 from django.http import HttpResponseRedirect
 import barcode
-
+import time
 
 
 
@@ -265,17 +265,17 @@ def creaCodigo(request):
 	if request.method == "POST":
 		informacion = "pasa post"
 		formulario = FormuCrea(request.POST)
-		if formulario.is_valid():
-			EAN = barcode.get_barcode_class('ean13')
-			ean = EAN(request.POST.get('codigo'))
-			ean.save(request.POST.get('codigo'))
- 			agrega = formulario.save(commit = False)
-			agrega.save()
-			informacion = "Terminado"
-			return HttpResponseRedirect('/codigoBarras/%s' %agrega.id)
+		EAN = barcode.get_barcode_class('ean13')
+		stamp = time.time()
+		ean = EAN(stamp)
+		ean.save(stamp)
+		agrega = formulario.save(commit = False)
+		agrega.save()
+		informacion = "Terminado"
+		return HttpResponseRedirect('/codigoBarras/%s' %agrega.id)
 	else:
 		formulario = FormuCrea()
-		ctx = {'form': formulario,'info':informacion}
+	ctx = {'form': formulario,'info':informacion}
 	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
 
 def ver_unico(request,id_cofre):
