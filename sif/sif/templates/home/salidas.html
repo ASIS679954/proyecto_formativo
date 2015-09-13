@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	Lista de salidas
+{% endblock %}
+
+{% block content %}
+	<h1>Lista de salidas </h1>
+	<br>
+	<a href="{% url 'vista_agregar_salida' %}">Agregar nueva salida</a>
+	{% if salida %}
+		{%for i in salida %}
+			<p>
+				<b>Tipo Salida: </b> {{i.tipo_salida}}
+				<b>Sede: </b> {{i.sede}}
+				<b>Fecha salida: </b> {{i.fecha_salida}}
+				<a href="/salida/{{i.id}}">Ver</a>
+				<a href="/edit/salida/{{i.id}}">Editar</a>
+			</p>
+		{% endfor %}
+	{% else %}
+		<h3><b>No existen salidas disponibles</b></h3>
+	{% endif %}
+{% endblock %}

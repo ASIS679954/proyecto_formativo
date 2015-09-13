@@ -1,4 +1,5 @@
 # Create your views here.
+<<<<<<< HEAD
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
@@ -13,3 +14,255 @@ def creaCodigo(request):
 	else:
 		form = FormuCrea()
 	return render(request, 'formulario.html',{'form': form})
+=======
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from sif.apps.inventario.forms import *
+from sif.apps.inventario.models import *
+from django.http import HttpResponseRedirect
+
+
+#Sedes
+def add_sede_view(request):
+	info = "iniciando"
+	if request.method=="POST":
+		formulario = add_sede_form(request.POST, request.FILES) 
+		if formulario.is_valid():
+			add = formulario.save(commit = False)
+			add.save()
+			info = "Guardado satisfactoriamente"
+			return HttpResponseRedirect ('/sede/%s' %add.id)
+	else:
+		formulario = add_sede_form()
+	ctx = {'form':formulario,'informacion': info}
+	return render_to_response('inventario/add_sede.html',ctx, context_instance = RequestContext(request))
+
+
+def edit_sede_view(request, id_sede):
+	info = ""
+	sede = Sede.objects.get(pk =id_sede)
+	if request.method == "POST":
+		formulario = add_sede_form(request.POST, request.FILES,  instance= sede)
+		if formulario.is_valid():
+			edit_sede = formulario.save(commit = False)
+			edit_sede.save()
+			info = "Guardado satisfactoriamente"
+			return HttpResponseRedirect('/sede/%s'% edit_sede.id)
+	else: 
+		formulario = add_sede_form(instance = sede)
+	ctx = {'form':  formulario, 'informacion': info}
+	return  render_to_response('inventario/edit_sede.html', ctx, context_instance = RequestContext(request))
+
+#Entradas
+def add_entrada_view(request):
+	if request.method == "POST":
+		formulario = add_entrada_form(request.POST, request.FILES)
+		if formulario.is_valid():
+			x = formulario.cleaned_data['producto']
+			cant = formulario.cleaned_data['cantidad']
+			prod = Producto.objects.get(pk = x.id) 
+			prod.cantidad = prod.cantidad + cant
+			prod.save()
+			add = formulario.save(commit = False)
+			add.save()
+			return HttpResponseRedirect('/entrada/%s' %add.id)
+	else:
+		formulario = add_entrada_form()
+	ctx = {'form': formulario}
+	return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+
+def edit_entrada_view(request, id_entr):
+	entrada = Entrada.objects.get(pk =id_entr)
+	cant_ini = entrada.cantidad
+	prod = entrada.producto
+	if request.method == "POST":
+		formulario = add_entrada_form(request.POST, request.FILES,  instance= entrada)
+		if formulario.is_valid():
+			prod_aux = formulario.cleaned_data['producto']
+			cant_fin = formulario.cleaned_data['cantidad']
+			edit_entrada = formulario.save(commit = False)
+			if cant_fin > 0 :
+				if prod.id == prod_aux.id:
+					if cant_ini > cant_fin:
+						cant_tol = cant_ini - cant_fin
+						prod.cantidad = prod.cantidad - cant_tol
+					else:
+						cant_tol = cant_fin - cant_ini
+						prod.cantidad = prod.cantidad + cant_tol
+						prod.save()					
+						edit_entrada.save()
+						info = "Guardado satisfactoriamente"
+						return HttpResponseRedirect('/entrada/%s'% edit_entrada.id)					
+				else:
+					prod.cantidad = prod.cantidad - cant_ini
+					prod_aux.cantidad = prod_aux.cantidad + cant_fin
+					prod.save()
+					prod_aux.save()
+					edit_entrada.save()				
+					return HttpResponseRedirect('/entrada/%s'% edit_entrada.id)
+			else:
+				formulario = add_entrada_form(instance = entrada)
+				mensaje = "Error, la cantidad debe ser mayor que o igual que 0"
+				ctx = {'form':  formulario, 'men':mensaje}
+				return  render_to_response('inventario/edit_entrada.html', ctx, context_instance = RequestContext(request))
+	else: 
+		formulario = add_entrada_form(instance = entrada)
+	ctx = {'form':  formulario}
+	return  render_to_response('inventario/edit_entrada.html', ctx, context_instance = RequestContext(request))
+
+#Operador
+def add_operador_view(request):
+	info = "inicializando"
+	if request.method =="POST":
+		formulario = add_operador_form(request.POST,request.FILES)
+		if formulario.is_valid():
+			add =formulario.save(commit = False)
+			add.save()
+			info = "Guardado satisfactoriamente"
+			return HttpResponseRedirect ('/operador/%s' %add.id)
+
+	else:
+		formulario = add_operador_form()
+	ctx = {'form':formulario,'informacion':info}
+	return render_to_response('inventario/add_operador.html',ctx,context_instance = RequestContext(request))
+
+
+def edit_operador_view(request,id_operador):
+	info=""
+	ope = Usuario.objects.get(pk = id_operador)
+	if request.method == "POST":
+		formulario = add_operador_form(request.POST,request.FILES,instance = ope)
+		if formulario.is_valid():
+			edit_ope = formulario.save(commit = False)
+			edit_ope.save
+			info = "Guardado satisfactoriamente"
+		return HttpResponseRedirect('/operador/%s'% edit_ope.id)
+	else:
+		formulario = add_operador_form(instance = ope)
+	ctx = {'form':formulario,'informacion':info}
+	return render_to_response('inventario/edit_operador.html',ctx,context_instance = RequestContext(request)) 
+
+
+def inhabilitar_operador_view(request,id_operador):
+	ope = Usuario.objects.get(pk = id_operador)
+	ope.estado = False
+	ope.save()
+	info = "inhabilitado "
+	return render_to_response('home/operador.html', context_instance = RequestContext(request)) #operarios es el nombre de mi url	
+
+#Salida
+def add_salida_view(request):
+			
+	if request.method == 'POST':
+		formulario = add_salida_form(request.POST, request.FILES)
+		if formulario.is_valid():
+			prod = formulario.cleaned_data['producto']
+			cant = formulario.cleaned_data['cantidad']
+			aux = prod.cantidad = prod.cantidad - cant
+			if (aux >= 0):
+				prod.cantidad = aux
+				prod.save()
+				add = formulario.save(commit = False)
+				add.save()
+				return HttpResponseRedirect('/salida/%s' %add.id)
+			else:
+				formulario = add_salida_form()
+				mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+				ctx = {'men':mensaje, 'form': formulario}
+				return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+	else:
+		formulario = add_salida_form()
+	ctx = {'form': formulario}
+	return render_to_response('inventario/add_salida.html', ctx , context_instance = RequestContext(request))
+
+def edit_salida_view(request, id_sal):
+	sali = Salida.objects.get(id = id_sal)
+	if request.method == 'POST':
+		formulario = add_salida_form(request.POST, request.FILES, instance = sali)
+		if formulario.is_valid():
+			edit_sal = formulario.save(commit = False)
+			edit_sal.save()
+			return HttpResponseRedirect('/salida/%s' %edit_sal.id)
+	else:
+		formulario = add_salida_form(instance = sali)
+	ctx = {'form': formulario}
+	return render_to_response('inventario/edit_salida.html', ctx , context_instance = RequestContext(request))
+
+#Proveedor
+
+def add_prove_view(request):
+	info = "iniciando"
+	if request.method=="POST":
+		formulario = add_prove_form(request.POST, request.FILES) 
+		if formulario.is_valid():
+			add = formulario.save(commit = False)
+			add.save()
+			info = "Guardado satisfactoriamente"
+			return HttpResponseRedirect ('/proveedores/')
+	else:
+		formulario = add_prove_form()
+	ctx = {'form':formulario,'informacion': info}
+	return render_to_response('inventario/add_proveedor.html',ctx, context_instance = RequestContext(request))
+
+
+def edit_prove_view(request, id_prov):
+	info = ""
+	proveedor = Proveedor.objects.get(pk =id_prov)
+	if request.method == "POST":
+		formulario = add_prove_form(request.POST, request.FILES,  instance= proveedor)
+		if formulario.is_valid():
+			edit_prov = formulario.save(commit = False)
+			edit_prov.save()
+			info = "Guardado satisfactoriamente"
+			return HttpResponseRedirect('/proveedores/')
+	else: 
+		formulario = add_prove_form(instance = proveedor)
+	ctx = {'form':  formulario, 'informacion': info}
+	return  render_to_response('inventario/edit_proveedor.html', ctx, context_instance = RequestContext(request))
+
+
+#Producto
+
+def add_product_view(request):
+	info = "inicializando"
+	if request.method == "POST":
+		formulario = add_product_form(request.POST,request.FILES)
+		if formulario.is_valid():
+			add = formulario.save(commit = False)
+			add.save()
+			formulario.save_m2m()
+			info = "Guardado Satisfactoriamente"
+			return HttpResponseRedirect ('/producto/%s' %add.id)
+	else:
+		formulario = add_product_form()
+	ctx = {'form':formulario,'informacion':info}
+	return render_to_response('inventario/add_product.html', ctx,context_instance = RequestContext(request))
+
+def edit_product_view(request, id_prod):
+	info = ""
+	prod = Producto.objects.get(pk = id_prod)
+	if request.method == "POST":
+		formulario = add_product_form(request.POST, request.FILES, instance= prod)
+		if  formulario.is_valid():
+			edit_prod = formulario.save(commit = False)
+			formulario.save_m2m()
+			edit_prod.save()
+			info = "Guardado Satisfactoriamente"
+			return HttpResponseRedirect ('/producto/%s'% edit_prod.id)
+	else:
+		formulario = add_product_form(instance = prod)
+	ctx = {'form':formulario, 'informacion':info}
+	return render_to_response ('inventario/edit_product.html', ctx,context_instance = RequestContext(request))
+
+def del_product_view(request, id_prod):
+	
+	info = "inicializando"
+	try:
+		prod = Producto.objects.get(pk = id_prod)
+		prod.delete()
+		info = "Producto Eliminado Correctamente"
+		return HttpResponseRedirect('/producto/')
+	except:
+		info = "Producto no se puede eliminar"	
+		return HttpResponseRedirect('/producto/')
+>>>>>>> master

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	producto
+{% endblock %}
+{%block content%}
+	<h1>{{opera.nombre}}</h1>
+
+	<br>
+	<p><b>Identificacion</b>{{opera.identificacion}}</p>
+	<p><b>Nombre</b>{{opera.nombre}} </p>
+	<p><b>Apellido</b>{{opera.apellido}}</p>
+	<p><b>Sexo</b>{{opera.sexo}}</p>
+
+	<br>
+	<a href="/operarios/">Mostrar lista de operarios</a><!-- esta lista de operarios me dirige a mi url que se apoda vista de operarios en urls home-->
+	
+{% endblock %}
