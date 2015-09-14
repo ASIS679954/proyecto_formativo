@@ -42,14 +42,19 @@ def add_entrada_view(request):
 	if request.method == "POST":
 		formulario = add_entrada_form(request.POST, request.FILES)
 		if formulario.is_valid():
-			x = formulario.cleaned_data['producto']
+			prod = formulario.cleaned_data['producto']
 			cant = formulario.cleaned_data['cantidad']
-			prod = Producto.objects.get(pk = x.id) 
-			prod.cantidad = prod.cantidad + cant
-			prod.save()
 			add = formulario.save(commit = False)
-			add.save()
-			return HttpResponseRedirect('/entrada/%s' %add.id)
+			if (cant > 0):
+				prod.cantidad = prod.cantidad + cant
+				prod.save()
+				add.save()
+				return HttpResponseRedirect('/entrada/%s' %add.id)
+			else:
+				formulario = add_entrada_form(instance = add)
+				mensaje = "Error la cantidad debe ser mayor que 0"
+				ctx = {'men':mensaje, 'form': formulario}
+				return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
 	else:
 		formulario = add_entrada_form()
 	ctx = {'form': formulario}
@@ -61,15 +66,19 @@ def edit_entrada_view(request, id_entr):
 	prod = entrada.producto
 	if request.method == "POST":
 		formulario = add_entrada_form(request.POST, request.FILES,  instance= entrada)
-		if formulario.is_valid():
-			prod_aux = formulario.cleaned_data['producto']
+		if formulario.is_valid():			
 			cant_fin = formulario.cleaned_data['cantidad']
 			edit_entrada = formulario.save(commit = False)
 			if cant_fin > 0 :
+				prod_aux = formulario.cleaned_data['producto']
 				if prod.id == prod_aux.id:
 					if cant_ini > cant_fin:
 						cant_tol = cant_ini - cant_fin
 						prod.cantidad = prod.cantidad - cant_tol
+						prod.save()				
+						edit_entrada.save()
+						info = "Guardado satisfactoriamente"
+						return HttpResponseRedirect('/entrada/%s'% edit_entrada.id)	
 					else:
 						cant_tol = cant_fin - cant_ini
 						prod.cantidad = prod.cantidad + cant_tol
@@ -142,15 +151,15 @@ def add_salida_view(request):
 		if formulario.is_valid():
 			prod = formulario.cleaned_data['producto']
 			cant = formulario.cleaned_data['cantidad']
-			aux = prod.cantidad = prod.cantidad - cant
+			aux =  prod.cantidad - cant
+			add = formulario.save(commit = False)
 			if (aux >= 0):
 				prod.cantidad = aux
 				prod.save()
-				add = formulario.save(commit = False)
 				add.save()
 				return HttpResponseRedirect('/salida/%s' %add.id)
 			else:
-				formulario = add_salida_form()
+				formulario = add_salida_form(instance = add)
 				mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
 				ctx = {'men':mensaje, 'form': formulario}
 				return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
@@ -161,12 +170,55 @@ def add_salida_view(request):
 
 def edit_salida_view(request, id_sal):
 	sali = Salida.objects.get(id = id_sal)
+	cant_ini = sali.cantidad
+	prod = sali.producto
 	if request.method == 'POST':
 		formulario = add_salida_form(request.POST, request.FILES, instance = sali)
 		if formulario.is_valid():
+			cant_fin = formulario.cleaned_data['cantidad']			
 			edit_sal = formulario.save(commit = False)
-			edit_sal.save()
-			return HttpResponseRedirect('/salida/%s' %edit_sal.id)
+			if cant_fin > 0:
+				prod_aux = formulario.cleaned_data['producto']
+				if prod.id == prod_aux.id:
+					if cant_ini > cant_fin:
+						cant_tol = cant_ini - cant_fin
+						prod.cantidad = prod.cantidad + cant_tol
+						prod.save()				
+						edit_sal.save()
+						info = "Guardado satisfactoriamente"
+						return HttpResponseRedirect('/salida/%s'% edit_sal.id)	
+					else:
+						cant_tol = cant_fin - cant_ini
+						prod.cantidad = prod.cantidad - cant_tol
+						if prod.cantidad >= 0:
+							prod.save()					
+							edit_sal.save()
+							info = "Guardado satisfactoriamente"
+							return HttpResponseRedirect('/salida/%s'% edit_sal.id)
+						else:
+							formulario = add_salida_form(instance = edit_sal)
+							mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+							ctx = {'men':mensaje, 'form': formulario}
+							return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+				else:
+					prod.cantidad = prod.cantidad + cant_ini
+					prod_aux.cantidad = prod_aux.cantidad - cant_fin
+					if prod_aux.cantidad >= 0:
+						prod.save()
+						prod_aux.save()
+						edit_sal.save()				
+						return HttpResponseRedirect('/salida/%s'% edit_sal.id)
+					else:
+						formulario = add_salida_form(instance = edit_sal)
+						mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+						ctx = {'men':mensaje, 'form': formulario}
+						return render_to_response('inventario/edit_salida.html', ctx, context_instance = RequestContext(request))	
+			else:
+				formulario = add_salida_form(instance = sali)
+				mensaje = "Error, la cantidad debe ser mayor que o igual que 0"
+				ctx = {'form':  formulario, 'men':mensaje}
+				return  render_to_response('inventario/edit_salida.html', ctx, context_instance = RequestContext(request))
+			
 	else:
 		formulario = add_salida_form(instance = sali)
 	ctx = {'form': formulario}
