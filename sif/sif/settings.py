@@ -19,10 +19,6 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': '127.0.01',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-
-        'PASSWORD': '',
-        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-
         'PORT': '3306',                      # Set to empty string for default.
 
     }

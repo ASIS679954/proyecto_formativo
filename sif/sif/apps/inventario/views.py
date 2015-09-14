@@ -8,6 +8,7 @@ from sif.apps.inventario.models import Producto
 from django.http import HttpResponseRedirect
 import barcode
 import time
+import datetime
 
 
 
@@ -266,9 +267,10 @@ def creaCodigo(request):
 		informacion = "pasa post"
 		formulario = FormuCrea(request.POST)
 		EAN = barcode.get_barcode_class('ean13')
-		stamp = int(time.time())
-		ean = EAN(u'22222222')
-		ean.save("muestra")
+		#En esta linea creo un ID basado en el tiempo de Unix a prueba de Hash Collision
+		stamp = str((int(time.time())*100)+(datetime.datetime.now().second+10))
+		ean = EAN(stamp)
+		ean.save("sif/media/codes/"+stamp)
 		agrega = formulario.save(commit = False)
 		agrega.save()
 		informacion = "Terminado"
@@ -280,7 +282,7 @@ def creaCodigo(request):
 
 def ver_unico(request,id_cofre):
 	cofre = CodigoBarras.objects.get(id=id_cofre)
-	pp = Producto.objects.all().Codigobarras().count()
-	ctx = {'cofre':cofre,'cantidad':pp}
+	
+	ctx = {'cofre':cofre}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
 
