@@ -24,7 +24,9 @@ urlpatterns = patterns('sif.apps.inventario.views',
 		url(r'^del/producto/(?P<id_prod>.*)/$','del_product_view',name = 'vista_eliminar_producto'),
 
 		url(r'^agregar/codigoBarras/$','creaCodigo',name = 'vista_agregar_codigo'),
+		url(r'^codigoBarras/cod/(?P<id_cofre>.*)/$','ver_unico_cod',name = 'vista_ver_unico_cod'),
 		url(r'^codigoBarras/(?P<id_cofre>.*)/$','ver_unico',name = 'vista_ver_unico'),
+
 
 	)
 

@@ -86,9 +86,6 @@ class Proveedor(models.Model):
 
 class CodigoBarras(models.Model):
 
-	codigo = models.CharField(max_length=13)
-	fecha = models.DateField(auto_now = True)
-
 	codigo 			= models.CharField(max_length=13, unique = True)
 	fecha 			= models.DateField(auto_now = True)
 

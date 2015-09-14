@@ -311,30 +311,42 @@ def del_product_view(request, id_prod):
 
 
 
-
+'''
+ La vista creaCodigo: Crea un codigo sin necesidad de formulario, solo le hace falta 
+ hacer un request post y automaticamente genera un codigo con ID unico y redirige a otro template
+ donde se ve el codigo y la imagen del codigo generado 
+'''
 def creaCodigo(request):
 	
 	informacion = "Inicia"
 	if request.method == "POST":
 		informacion = "pasa post"
-		formulario = FormuCrea(request.POST)
 		EAN = barcode.get_barcode_class('ean13')
 		#En esta linea creo un ID basado en el tiempo de Unix a prueba de Hash Collision
 		stamp = str((int(time.time())*100)+(datetime.datetime.now().second+10))
 		ean = EAN(stamp)
 		ean.save("sif/media/codes/"+stamp)
-		agrega = formulario.save(commit = False)
-		agrega.save()
+		crea = CodigoBarras(codigo=stamp)
+		crea.save()
 		informacion = "Terminado"
-		return HttpResponseRedirect('/codigoBarras/%s' %agrega.id)
+		return HttpResponseRedirect('/codigoBarras/%s' %crea.id)
 	else:
-		formulario = FormuCrea()
+		formulario = "<input type='submit' name='envia' value='envia'>"
+		
 	ctx = {'form': formulario,'info':informacion}
 	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
-
+'''
+  La vista ver_unico: Muestra un codigo de barras y su imagen en base a su id 
+'''
 def ver_unico(request,id_cofre):
 	cofre = CodigoBarras.objects.get(id=id_cofre)
-	
+	ctx = {'cofre':cofre}
+	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
+'''
+  La vista ver_unico_cod: Muestra un codigo de barras y su imagen en base a su codigo 
+'''
+def ver_unico_cod(request,id_cofre):
+	cofre = CodigoBarras.objects.get(codigo=id_cofre)
 	ctx = {'cofre':cofre}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
 
