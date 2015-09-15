@@ -1,4 +1,6 @@
 # Create your views here.
+<<<<<<< HEAD
+=======
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from sif.apps.inventario.forms import *
@@ -76,3 +78,4 @@ def alerta_view(request, id_prod):
 	clave = id_prod
 	ctx = {'clave': clave }
 	return render_to_response('home/alertaDelProducto.html',ctx, context_instance = RequestContext(request) )
+>>>>>>> master

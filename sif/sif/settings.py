@@ -12,13 +12,15 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
+
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'base.sqlite3',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'PORT': '',  
+
     }
 }
 
@@ -128,8 +130,10 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'sif.apps.home',
     'sif.apps.inventario',
+
     'sif.apps.web_services.ws_producto',
     'rest_framework',
+
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -162,9 +166,11 @@ LOGGING = {
         },
     }
 }
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':[
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 
 }
+
