@@ -44,3 +44,5 @@ class FormuCrea(forms.ModelForm):
 		model = CodigoBarras
 	
 
+
+    

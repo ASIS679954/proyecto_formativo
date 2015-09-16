@@ -269,7 +269,7 @@ def edit_prove_view(request, id_prov):
 def add_product_view(request):
 	info = "inicializando"
 	if request.method == "POST":
-		formulario = add_product_form(request.POST,request.FILES)
+		formulario = add_product_form(request.POST)
 		if formulario.is_valid():
 			add = formulario.save(commit = False)
 			add.save()
@@ -350,4 +350,9 @@ def ver_unico_cod(request,id_cofre):
 	cofre = CodigoBarras.objects.get(codigo=id_cofre)
 	ctx = {'cofre':cofre}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
+def smart_scaner(request):
+    cod_cofre = -1
+    if request.method == "POST":
+        cod_cofre = request.POST.get('codigo')
+        
 
