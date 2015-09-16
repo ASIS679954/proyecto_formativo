@@ -322,13 +322,14 @@ def creaCodigo(request):
 	if request.method == "POST":
 		informacion = "pasa post"
 		EAN = barcode.get_barcode_class('ean13')
-		#En esta linea creo un ID basado en el tiempo de Unix a prueba de Hash Collision
+		#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
 		stamp = str((int(time.time())*100)+(datetime.datetime.now().second+10))
 		ean = EAN(stamp)
 		ean.save("sif/media/codes/"+stamp)
 		crea = CodigoBarras(codigo=stamp)
 		crea.save()
 		informacion = "Terminado"
+        
 		return HttpResponseRedirect('/codigoBarras/%s' %crea.id)
 	else:
 		formulario = "<input type='submit' name='envia' value='envia'>"
