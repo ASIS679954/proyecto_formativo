@@ -1,8 +1,6 @@
-
-
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from sif.apps.inventario.forms import FormuCrea
+from sif.apps.inventario.forms import *
 from sif.apps.inventario.models import CodigoBarras
 from sif.apps.inventario.models import Producto
 from django.http import HttpResponseRedirect
@@ -264,6 +262,18 @@ def edit_prove_view(request, id_prov):
 	return  render_to_response('inventario/edit_proveedor.html', ctx, context_instance = RequestContext(request))
 
 
+def creaCodigoAux():
+	EAN = barcode.get_barcode_class('ean13')
+	#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
+	stamp = str((int(time.time())*100)+(datetime.datetime.now().second+10))
+	ean = EAN(stamp)
+	ean.save("sif/media/codes/"+stamp)
+	crea = CodigoBarras(codigo=stamp)
+	crea.save()
+	cofre = CodigoBarras.objects.get(id=crea.id)
+	return cofre
+
+
 #Producto
 
 def add_product_view(request):
@@ -272,6 +282,7 @@ def add_product_view(request):
 		formulario = add_product_form(request.POST)
 		if formulario.is_valid():
 			add = formulario.save(commit = False)
+			add.codigobarras = creaCodigoAux()
 			add.save()
 			formulario.save_m2m()
 			info = "Guardado Satisfactoriamente"
@@ -336,6 +347,8 @@ def creaCodigo(request):
 		
 	ctx = {'form': formulario,'info':informacion}
 	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
+
+
 '''
   La vista ver_unico: Muestra un codigo de barras y su imagen en base a su id 
 '''
@@ -350,9 +363,6 @@ def ver_unico_cod(request,id_cofre):
 	cofre = CodigoBarras.objects.get(codigo=id_cofre)
 	ctx = {'cofre':cofre}
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
-def smart_scaner(request):
-    cod_cofre = -1
-    if request.method == "POST":
-        cod_cofre = request.POST.get('codigo')
+
         
 

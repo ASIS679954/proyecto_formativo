@@ -35,10 +35,13 @@ class add_prove_form(forms.ModelForm):
 #Producto 
 class add_product_form(forms.ModelForm):
 	class Meta:
-		model  = Producto
-
-
-
+		model = Producto
+		exclude = ('codigobarras',)
+		''' 
+		widgets = {
+			'codigobarras': forms.HiddenInput(attrs={'value':'1234'}),
+		}
+		'''
 class FormuCrea(forms.ModelForm):
 	class Meta:
 		model = CodigoBarras

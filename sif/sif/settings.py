@@ -130,7 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'sif.apps.home',
     'sif.apps.inventario',
-
+    'south',
     'sif.apps.web_services.ws_producto',
     'rest_framework',
 
