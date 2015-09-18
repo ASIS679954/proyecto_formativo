@@ -152,7 +152,7 @@ def inhabilitar_operador_view(request,id_operador):
 def add_salida_view(request):
 			
 	if request.method == 'POST':
-		formulario = add_salida_form(request.POST, request.FILES)
+		formulario = add_salida_form(request.POST)
 		if formulario.is_valid():
 			prod = formulario.cleaned_data['producto']
 			cant = formulario.cleaned_data['cantidad']
