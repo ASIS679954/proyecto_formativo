@@ -14,8 +14,7 @@ admin.site.register(Sede)
 
 #admin.site.register(Transferencia)
 
-admin.site.register(Departamento)
-admin.site.register(Producto)
+
 
 admin.site.register(Entrada)
 admin.site.register(Departamento)

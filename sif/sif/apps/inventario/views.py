@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-<<<<<<< HEAD
 
 import time
 import datetime
@@ -185,22 +184,36 @@ def inhabilitar_operador_view(request,id_operador):
 def add_salida_view(request):
 			
 	if request.method == 'POST':
-		formulario = add_salida_form(request.POST)
-		if formulario.is_valid():
-			prod = formulario.cleaned_data['producto']
-			cant = formulario.cleaned_data['cantidad']
-			aux =  prod.cantidad - cant
-			add = formulario.save(commit = False)
-			if (aux >= 0):
-				prod.cantidad = aux
-				prod.save()
-				add.save()
-				return HttpResponseRedirect('/salida/%s' %add.id)
-			else:
-				formulario = add_salida_form(instance = add)
-				mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
-				ctx = {'men':mensaje, 'form': formulario}
-				return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+		
+		try :
+			formulario = add_salida_form(request.POST)
+			if formulario.is_valid():
+				cb = request.POST.get("codigobarras")
+				cba = CodigoBarras.objects.get(codigo=cb)
+				Salida.codigobarras = cba
+				prod = Producto.objects.get(codigobarras = cba)
+				cant = int(request.POST.get("cantidad"))
+				aux =  prod.cantidad - cant
+				add = formulario.save(commit = False)
+
+				if (aux >= 0):
+					add.codigobarras = CodigoBarras.objects.get(codigo=cb)
+					add.producto = prod
+					prod.cantidad = aux
+					prod.save()
+					add.save()
+					return HttpResponseRedirect('/salida/%s' %add.id)
+				else:
+					formulario = add_salida_form(instance = add)
+					mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+					ctx = {'men':mensaje, 'form': formulario}
+					return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+		except Producto.DoesNotExist:
+			
+			formulario = ""
+			mensaje = "El codigo de barras ingresado no existe"
+			ctx = {'men':mensaje, 'form': formulario}
+			return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
 	else:
 		formulario = add_salida_form()
 	ctx = {'form': formulario}

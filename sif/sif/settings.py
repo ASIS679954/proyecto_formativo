@@ -12,25 +12,14 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-=======
-
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
->>>>>>> origin/esteban
-        'NAME': 'base.sqlite3',                      # Or path to database file if using sqlite3.
+		'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+		'NAME': 'base.sqlite3',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
         'PASSWORD': '',
-<<<<<<< HEAD
 		'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default.
-		'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-=======
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',  
->>>>>>> origin/esteban
+
 
     }
 }
@@ -141,9 +130,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'sif.apps.home',
     'sif.apps.inventario',
-    
     'sif.apps.web_services.ws_producto',
-    'rest_framework',
+    
 
 )
 

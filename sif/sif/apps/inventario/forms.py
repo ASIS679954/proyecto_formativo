@@ -28,8 +28,15 @@ class add_operador_form(forms.ModelForm):
 
 #Salida
 class add_salida_form(forms.ModelForm):
+	codigobarras = forms.CharField()
 	class Meta:
 		model = Salida
+		exclude = ('producto',)
+		
+		widgets = {
+			'codigobarras': forms.TextInput(attrs={'autofocus':''}),
+		}
+		
 
 #Proveedor
 class add_prove_form(forms.ModelForm):
