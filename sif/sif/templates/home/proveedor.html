@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar Proveedores
+
+{% endblock %}
+
+{% block content %}
+	<h1> Lista de Proveedores </h1>
+	<br>
+	<a href="{% url 'vista_agregar_proveedor' %}"> Agregar un nuevo Proveedor</a>
+	{% if proveedores %}
+		{% for p in proveedores %}	
+			<p>
+				Identificacion: {{p.identificacion}}
+				telefono :{{p.telefono}}
+				<a href="/edit/proveedor/{{p.id}}" > Editar </a>
+			</p>
+		{% endfor%}
+	{% else %}
+		<h2> No existen operadores</h2>
+	{% endif %}
+
+{% endblock %}

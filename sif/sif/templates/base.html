@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html >
+<html lang="es">
 <head>
 	<title>
 		{% block title%}
@@ -6,7 +7,16 @@
 	</title>
 </head>
 <body>
+	<nav>
+		<li><a href="{% url 'vista_sede' %}">Lista sede</a></li>
+		<li><a href="{% url 'vista_operarios' %}">Lista operadores</a></li>
+		<li><a href="{% url 'vista_entrada' %}">Lista entradas</a></li>
+		<li><a href="{% url 'vista_salida' %}">Lista salida</a></li>
+		<li><a href="{% url 'vista_proveedor' %}">Lista proveedor</a></li>
+		<li><a href="{% url 'vista_busqueda' %}">Generar Reporte</a></li>
+		<li><a href="{% url 'vista_productos' %}">Listar Productos</a></li>
 
+	</nav>
 	{% block content%}
 	{% endblock %}
 

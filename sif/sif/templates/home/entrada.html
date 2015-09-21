@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar Entradas
+
+{% endblock %}
+
+{% block content %}
+	<h1>Lista de Entradas</h1>
+	<br>
+	<a href="{% url 'vista_agregar_entrada' %}"> Agregar una nueva entrada</a>
+	{% if entra %}
+		{% for p in entra %}	
+			<p>
+				ID : {{p.id}}
+				fecha: {{p.fecha_ingreso}}
+
+				<a href="/entrada/{{p.id}}"> Ver </a>
+				<a href="/edit/entrada/{{ p.id }}"> Editar </a>
+
+			</p>
+		{% endfor%}
+	{% else %}
+		<h2> No existen entradas </h2>
+	{% endif %}
+
+{% endblock %}

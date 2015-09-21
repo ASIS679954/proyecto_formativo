@@ -1,0 +1,16 @@
+{% extends 'base.html '%}
+
+{% block title %}
+	Entrada
+{% endblock %}
+
+{% block content %}
+	
+	<p><b>ID:</b> {{ entra.id }} </p>
+	<p><b>Fecha: </b>{{entra.fecha_ingreso}}</p>
+	<p><b>Obervacion:</b> {{ entra.observacion }} </p>
+	<p><b>Cantidad:</b> {{ entra.cantidad }} </p>
+	<p><b>Producto: </b>{{entra.producto}}</p>
+	<br>
+	<a href="/entradas">Mostrar la lista de entradas</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+	Salida
+{% endblock %}
+
+{% block content %}
+	<p><b>Tipo Salida: </b> {{salida.tipo_salida}}</p>
+	<p><b>Producto: </b>{{salida.producto}}</p>
+	<p><b>Cantidad: </b>{{salida.cantidad}}</p>
+	<p><b>Sede: </b> {{salida.sede}}</p>
+	<p><b>Descripcion: </b>{{salida.descripcion}}</p>
+	<p><b>Numero Contrato: </b>{{salida.numero_contrato}}</p>
+	<p><b>Fecha salida: </b>{{salida.fecha_salida}}</p>
+
+	<a href= "{% url 'vista_salida' %}">Listar salidas</a>
+{% endblock %}
