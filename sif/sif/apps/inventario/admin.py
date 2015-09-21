@@ -5,7 +5,9 @@ admin.site.register(Usuario)
 admin.site.register(Proveedor)
 admin.site.register(Sede)
 #admin.site.register(Municipio)
+
+#admin.site.register(Transferencia)
+
 admin.site.register(Departamento)
 admin.site.register(Producto)
-#admin.site.register(Transferencia)
 admin.site.register(CodigoBarras)
