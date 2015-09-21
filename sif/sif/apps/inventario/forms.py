@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 
 from django import forms
 from sif.apps.inventario.models import CodigoBarras
-=======
 
 from sif.apps.inventario.models import *
 from django import forms
@@ -47,17 +46,9 @@ class add_product_form(forms.ModelForm):
 			'codigobarras': forms.HiddenInput(attrs={'value':'1234'}),
 		}
 		'''
->>>>>>> origin/esteban
+
 class FormuCrea(forms.ModelForm):
 	class Meta:
 		model = CodigoBarras
 	
 
-<<<<<<< HEAD
-	
-
-
-=======
-
-    
->>>>>>> origin/esteban

@@ -2,15 +2,18 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 <<<<<<< HEAD
 
+import time
+import datetime
+
 from sif.apps.inventario.forms import FormuCrea
-=======
+
 from sif.apps.inventario.forms import *
->>>>>>> origin/esteban
+
 from sif.apps.inventario.models import CodigoBarras
 from sif.apps.inventario.models import Producto
 from django.http import HttpResponseRedirect
 import barcode
-<<<<<<< HEAD
+
 
 def creaCodigo(request):
 	
@@ -36,12 +39,7 @@ def ver_unico(request,id_cofre):
 	cofre = CodigoBarras.objects.get(id=id_cofre)
 	pp = Producto.objects.select_related().get(id)
 	ctx = {'cofre':cofre,'pp':pp}
-	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
-=======
-import time
-import datetime
 
->>>>>>> origin/esteban
 
 
 
@@ -76,8 +74,7 @@ def edit_sede_view(request, id_sede):
 	ctx = {'form':  formulario, 'informacion': info}
 	return  render_to_response('inventario/edit_sede.html', ctx, context_instance = RequestContext(request))
 
-<<<<<<< HEAD
-=======
+
 #Entradas
 def add_entrada_view(request):
 	if request.method == "POST":
@@ -402,4 +399,3 @@ def ver_unico_cod(request,id_cofre):
 
         
 
->>>>>>> origin/esteban
