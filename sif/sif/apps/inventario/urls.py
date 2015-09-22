@@ -2,6 +2,13 @@ from django.conf.urls.defaults import patterns, url
 
 
 urlpatterns = patterns('sif.apps.inventario.views',
+
+
+    	url(r'^agregar/codigoBarras/$','creaCodigo',name = 'vista_agregar_codigo'),
+		url(r'^codigoBarras/(?P<id_cofre>.*)/$','ver_unico',name = 'vista_ver_unico'),
+	
+ 
+
 		#Sede
 		url(r'^add/sede/$','add_sede_view', name = 'vista_agregar_sede'),
 		url(r'^edit/sede/(?P<id_sede>.*)/$', 'edit_sede_view', name = 'vista_editar_sede'),
@@ -29,6 +36,4 @@ urlpatterns = patterns('sif.apps.inventario.views',
 
 
 	)
-
-
 
