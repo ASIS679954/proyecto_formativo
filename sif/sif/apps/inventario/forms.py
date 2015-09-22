@@ -28,23 +28,14 @@ class add_operador_form(forms.ModelForm):
 
 #Salida
 class add_salida_form(forms.ModelForm):
-<<<<<<< HEAD
 	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
 	def clean_codigobarras(self):
 		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
-=======
-	codigobarras = forms.CharField()
->>>>>>> origin/esteban
 	class Meta:
 		model = Salida
 		exclude = ('producto',)
 		
-<<<<<<< HEAD
-=======
-		widgets = {
-			'codigobarras': forms.TextInput(attrs={'autofocus':''}),
-		}
->>>>>>> origin/esteban
+
 		
 
 		
@@ -58,14 +49,7 @@ class add_product_form(forms.ModelForm):
 	class Meta:
 		model = Producto
 		exclude = ('codigobarras',)
-<<<<<<< HEAD
-=======
-		''' 
-		widgets = {
-			'codigobarras': forms.HiddenInput(attrs={'value':'1234'}),
-		}
-		'''
->>>>>>> origin/esteban
+
 
 class FormuCrea(forms.ModelForm):
 	class Meta:
