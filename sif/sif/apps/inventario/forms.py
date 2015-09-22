@@ -24,9 +24,16 @@ class add_operador_form(forms.ModelForm):
 
 #Salida
 class add_salida_form(forms.ModelForm):
+	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
+	def clean_codigobarras(self):
+		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
 	class Meta:
 		model = Salida
+		exclude = ('producto',)
+		
+		
 
+		
 #Proveedor
 class add_prove_form(forms.ModelForm):
 	class Meta:
@@ -37,11 +44,7 @@ class add_product_form(forms.ModelForm):
 	class Meta:
 		model = Producto
 		exclude = ('codigobarras',)
-		''' 
-		widgets = {
-			'codigobarras': forms.HiddenInput(attrs={'value':'1234'}),
-		}
-		'''
+
 class FormuCrea(forms.ModelForm):
 	class Meta:
 		model = CodigoBarras

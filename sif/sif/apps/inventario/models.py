@@ -109,23 +109,7 @@ class Producto(models.Model):
 	def __unicode__(self):
 		return self.nombre
 
-class Sede(models.Model):
-	nombre_sede = models.CharField(max_length = 30)
-	direccion = models.CharField(max_length=30)
-	telefono = models.CharField(max_length=20)
 
-	nombre 			= models.CharField(max_length=50)
-	referencia 		= models.CharField(max_length=50)
-	fecha_ingreso 	= models.DateField(auto_now = True)
-	dimensiones		= models.CharField(max_length = 30)
-	proveedor 		= models.ForeignKey(Proveedor)
-	codigobarras 	= models.ForeignKey(CodigoBarras)
-	valor 			= models.IntegerField()
-	descripcion 	= models.TextField(max_length=150)
-	cantidad		= models.IntegerField(default = 0)
-
-	def __unicode__(self):
-		return self.nombre + self.referencia
 
 class Sede(models.Model):
 	nombre_sede 	= models.CharField(max_length = 30)
@@ -144,19 +128,14 @@ class Salida(models.Model):
 			(u'cliente',u'cliente'),
 			(u'reparacion',u'reparacion'),
 		)
-	fecha_salida = models.DateField(auto_now = True)
-	tipo_salida = models.CharField(max_length=50,choices = traslados, default = "traslado")
-	codigobarras = models.ForeignKey(CodigoBarras)
-	cantidad = models.IntegerField()
-	sede = models.ForeignKey(Sede)
-	descripcion = models.CharField(max_length=150)
+	
+	codigobarras 	= models.ForeignKey(CodigoBarras)
+	descripcion 	= models.CharField(max_length=150)
 	fecha_salida	= models.DateField(auto_now = True)
 	tipo_salida 	= models.CharField(max_length=50,choices = traslados, default = "traslado")
 	producto 		= models.ForeignKey(Producto)
 	cantidad 		= models.IntegerField()
 	sede 			= models.ForeignKey(Sede)
-	descripcion 	= models.TextField(max_length=150)
-
 	numero_contrato = models.IntegerField()
 
 
