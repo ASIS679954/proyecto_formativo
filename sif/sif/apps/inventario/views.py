@@ -1,12 +1,37 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from sif.apps.inventario.forms import *
-from sif.apps.inventario.models import CodigoBarras
-from sif.apps.inventario.models import Producto
-from django.http import HttpResponseRedirect
-import barcode
 import time
 import datetime
+from sif.apps.inventario.forms import *
+from sif.apps.inventario.models import *
+from django.http import HttpResponseRedirect
+import barcode
+
+
+def creaCodigo(request):
+	
+	informacion = "Inicia"
+	if request.method == "POST":
+		informacion = "pasa post"
+		formulario = FormuCrea(request.POST)
+		if formulario.is_valid():
+			EAN = barcode.get_barcode_class('ean13')
+			ean = EAN(request.POST.get('codigo'))
+			ean.save(request.POST.get('codigo'))
+ 			agrega = formulario.save(commit = False)
+			agrega.save()
+			informacion = "Terminado"
+			return HttpResponseRedirect('/codigoBarras/%s' %agrega.id)
+	else:
+		tablaCofre = CodigoBarras.objects().all()
+		formulario = FormuCrea()
+		ctx = {'form': formulario,'info':informacion,'tabla':tablaCofre}
+	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
+
+def ver_unico(request,id_cofre):
+	cofre = CodigoBarras.objects.get(id=id_cofre)
+	pp = Producto.objects.select_related().get(id)
+	ctx = {'cofre':cofre,'pp':pp}
 
 
 
@@ -42,24 +67,34 @@ def edit_sede_view(request, id_sede):
 	ctx = {'form':  formulario, 'informacion': info}
 	return  render_to_response('inventario/edit_sede.html', ctx, context_instance = RequestContext(request))
 
+
 #Entradas
 def add_entrada_view(request):
 	if request.method == "POST":
-		formulario = add_entrada_form(request.POST, request.FILES)
-		if formulario.is_valid():
-			prod = formulario.cleaned_data['producto']
-			cant = formulario.cleaned_data['cantidad']
-			add = formulario.save(commit = False)
-			if (cant > 0):
-				prod.cantidad = prod.cantidad + cant
-				prod.save()
-				add.save()
-				return HttpResponseRedirect('/entrada/%s' %add.id)
-			else:
-				formulario = add_entrada_form(instance = add)
-				mensaje = "Error la cantidad debe ser mayor que 0"
-				ctx = {'men':mensaje, 'form': formulario}
-				return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+		formulario = add_entrada_form(request.POST)
+		try:
+			if formulario.is_valid():
+				codigo = formulario.cleaned_data['codigobarras'] 
+				prod = Producto.objects.get(codigobarras=codigo)
+				cant = formulario.cleaned_data['cantidad']
+				add = formulario.save(commit = False)
+				if (cant > 0):
+					prod.cantidad = prod.cantidad + cant
+					prod.save()
+					add.producto = prod
+					add.save()
+					return HttpResponseRedirect('/entrada/%s' %add.id)
+				else:
+					formulario = add_entrada_form(instance = add)
+					mensaje = "Error la cantidad debe ser mayor que 0"
+					ctx = {'men':mensaje, 'form': formulario}
+					return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+		except CodigoBarras.DoesNotExist: 
+			formulario = add_entrada_form()
+			mensaje = "El codigo de barras ingresado no existe"
+			ctx = {'men':mensaje, 'form': formulario}
+			return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+
 	else:
 		formulario = add_entrada_form()
 	ctx = {'form': formulario}
@@ -152,26 +187,35 @@ def inhabilitar_operador_view(request,id_operador):
 def add_salida_view(request):
 			
 	if request.method == 'POST':
-		formulario = add_salida_form(request.POST)
-		if formulario.is_valid():
-			prod = formulario.cleaned_data['producto']
-			cant = formulario.cleaned_data['cantidad']
-			aux =  prod.cantidad - cant
-			add = formulario.save(commit = False)
-			if (aux >= 0):
-				prod.cantidad = aux
-				prod.save()
-				add.save()
-				return HttpResponseRedirect('/salida/%s' %add.id)
-			else:
-				formulario = add_salida_form(instance = add)
-				mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+			formulario = add_salida_form(request.POST)
+			try:
+				if formulario.is_valid():
+					prod = Producto.objects.get(codigobarras=formulario.cleaned_data['codigobarras'])
+					cant = formulario.cleaned_data['cantidad']
+					aux =  prod.cantidad - cant
+					add = formulario.save(commit = False)
+					if (aux >= 0):
+						prod.cantidad = aux
+						prod.save()
+						add.producto = prod
+						add.save()
+						return HttpResponseRedirect('/salida/%s' %add.id)
+					else:
+						formulario = add_salida_form(instance = add)
+						mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
+						ctx = {'men':mensaje, 'form': formulario}
+						return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+			except CodigoBarras.DoesNotExist:
+				formulario = add_salida_form()
+				mensaje = "El codigo de barras ingresado no existe"
 				ctx = {'men':mensaje, 'form': formulario}
 				return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+			
 	else:
 		formulario = add_salida_form()
-	ctx = {'form': formulario}
-	return render_to_response('inventario/add_salida.html', ctx , context_instance = RequestContext(request))
+		ctx = {'form': formulario}
+		return render_to_response('inventario/add_salida.html', ctx , context_instance = RequestContext(request))
+
 
 def edit_salida_view(request, id_sal):
 	sali = Salida.objects.get(id = id_sal)
