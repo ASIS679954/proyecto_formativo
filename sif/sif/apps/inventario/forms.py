@@ -17,8 +17,14 @@ class add_sede_form(forms.ModelForm):
 
 #Entrada
 class add_entrada_form(forms.ModelForm):
+	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
+	def clean_codigobarras(self):
+		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
 	class Meta:
 		model 	= Entrada
+		exclude = ('producto',)
+		fields = ['codigobarras','cantidad','observacion']
+
 	
 #Operador
 class add_operador_form(forms.ModelForm):

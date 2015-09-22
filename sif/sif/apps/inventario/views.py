@@ -71,21 +71,30 @@ def edit_sede_view(request, id_sede):
 #Entradas
 def add_entrada_view(request):
 	if request.method == "POST":
-		formulario = add_entrada_form(request.POST, request.FILES)
-		if formulario.is_valid():
-			prod = formulario.cleaned_data['producto']
-			cant = formulario.cleaned_data['cantidad']
-			add = formulario.save(commit = False)
-			if (cant > 0):
-				prod.cantidad = prod.cantidad + cant
-				prod.save()
-				add.save()
-				return HttpResponseRedirect('/entrada/%s' %add.id)
-			else:
-				formulario = add_entrada_form(instance = add)
-				mensaje = "Error la cantidad debe ser mayor que 0"
-				ctx = {'men':mensaje, 'form': formulario}
-				return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+		formulario = add_entrada_form(request.POST)
+		try:
+			if formulario.is_valid():
+				codigo = formulario.cleaned_data['codigobarras'] 
+				prod = Producto.objects.get(codigobarras=codigo)
+				cant = formulario.cleaned_data['cantidad']
+				add = formulario.save(commit = False)
+				if (cant > 0):
+					prod.cantidad = prod.cantidad + cant
+					prod.save()
+					add.producto = prod
+					add.save()
+					return HttpResponseRedirect('/entrada/%s' %add.id)
+				else:
+					formulario = add_entrada_form(instance = add)
+					mensaje = "Error la cantidad debe ser mayor que 0"
+					ctx = {'men':mensaje, 'form': formulario}
+					return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+		except CodigoBarras.DoesNotExist: 
+			formulario = add_entrada_form()
+			mensaje = "El codigo de barras ingresado no existe"
+			ctx = {'men':mensaje, 'form': formulario}
+			return render_to_response('inventario/add_entrada.html', ctx, context_instance = RequestContext(request))
+
 	else:
 		formulario = add_entrada_form()
 	ctx = {'form': formulario}

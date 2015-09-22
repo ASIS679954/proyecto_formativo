@@ -64,13 +64,7 @@ class Rol(models.Model):
 
 class Proveedor(models.Model):
 
-	identificacion = models.CharField(max_length=50, unique = True)
-	nombre = models.CharField(max_length=50)
-	apellido = models.CharField(max_length=50)
-	telefono = models.CharField(max_length=50)
-	direccion = models.CharField(max_length=50)
-	email = models.EmailField()
-	razon_social = models.CharField(max_length=50)
+
 
 	identificacion 	= models.CharField(max_length=50, unique = True)
 	nombre 			= models.CharField(max_length=50)
@@ -130,7 +124,7 @@ class Salida(models.Model):
 		)
 	
 	codigobarras 	= models.ForeignKey(CodigoBarras)
-	descripcion 	= models.CharField(max_length=150)
+	descripcion 	= models.CharField(max_length=150,blank=True)
 	fecha_salida	= models.DateField(auto_now = True)
 	tipo_salida 	= models.CharField(max_length=50,choices = traslados, default = "traslado")
 	producto 		= models.ForeignKey(Producto)
@@ -152,7 +146,7 @@ class Entrada(models.Model):
 	fecha_ingreso	= models.DateField(auto_now = True)
 	producto 		= models.ForeignKey(Producto)
 	cantidad 		= models.IntegerField()
-	observacion		= models.TextField(max_length = 500)
+	observacion		= models.TextField(max_length = 500,blank=True)
 
 	def __unicode__(self):
 		return str(self.fecha_ingreso)
