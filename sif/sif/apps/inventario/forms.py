@@ -37,6 +37,15 @@ class add_salida_form(forms.ModelForm):
 	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
 	def clean_codigobarras(self):
 		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
+	def clean_numero_contrato(self):
+		tipo = self.cleaned_data['tipo_salida']
+		contrato = self.cleaned_data['numero_contrato']
+		if "cliente" in tipo:
+			if not contrato:
+				raise forms.ValidationError(
+					"Tienes que especificar el numero del contrato"
+				)
+		return contrato
 	class Meta:
 		model = Salida
 		exclude = ('producto',)

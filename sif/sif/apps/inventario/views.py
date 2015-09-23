@@ -205,6 +205,14 @@ def add_salida_view(request):
 						mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
 						ctx = {'men':mensaje, 'form': formulario}
 						return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+				else:
+						formulario = add_salida_form()
+						ctx = {'form': formulario}
+						return render_to_response('inventario/add_salida.html', ctx, context_instance = RequestContext(request))
+				
+				
+				
+
 			except CodigoBarras.DoesNotExist:
 				formulario = add_salida_form()
 				mensaje = "El codigo de barras ingresado no existe"

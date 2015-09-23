@@ -1,0 +1,6 @@
+#id_numero_contrato{
+	display: none;
+}
+label[for="id_numero_contrato"]{
+	display: none;
+}

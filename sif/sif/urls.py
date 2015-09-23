@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^',include('sif.apps.reportes.urls')),
     url(r'^',include('sif.apps.web_services.ws_producto.urls')),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT}),
+    
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),

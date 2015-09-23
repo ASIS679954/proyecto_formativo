@@ -11,10 +11,6 @@ class Departamento(models.Model):
 	nombre 		= models.CharField(max_length=50)
 	municipio 	= models.CharField(max_length=50)
 
-	nombre 			= models.CharField(max_length=50)
-	municipio 		= models.CharField(max_length=50)
-
-
 	def __unicode__(self):
 		return self.nombre
 
@@ -35,9 +31,7 @@ class Usuario(models.Model):
 	apellido 		= models.CharField(max_length=50)
 
 	#email			= models.CharField(max_length=30)
-	direccion 		= models.CharField(max_length=30)
-	telefono 		= models.CharField(max_length=20)
-	sexo 			= models.CharField(max_length=15, choices = generos, default = "Masculino")
+	
     #clave 			= models.CharField(max_length=20)
     #estado 		= models.BooleanField(default = True)
     #userito 		= 
@@ -55,8 +49,7 @@ class Rol(models.Model):
 	nombre = models.CharField(max_length=50)
 	usuario = models.ForeignKey(Usuario)
 
-	nombre 			= models.CharField(max_length=50)
-	usuario 		= models.ForeignKey(Usuario)
+
 
 
 	def __unicode__(self):
@@ -90,14 +83,14 @@ class CodigoBarras(models.Model):
 class Producto(models.Model):
 
 	nombre = models.CharField(max_length=50)
-	referencia = models.CharField(max_length=50)
+	#referencia = models.CharField(max_length=50)
 	fecha_ingreso = models.DateField()
 	ancho = models.CharField(max_length=10)
 	largo = models.CharField(max_length=10)
 	proveedor = models.ForeignKey(Proveedor)
 	codigobarras = models.ForeignKey(CodigoBarras)
 	valor = models.IntegerField()
-	descripcion = models.TextField(max_length=150)
+	descripcion = models.TextField(max_length=150,blank=True)
 	cantidad	= models.IntegerField(default = 0)
 
 	def __unicode__(self):
@@ -124,13 +117,13 @@ class Salida(models.Model):
 		)
 	
 	codigobarras 	= models.ForeignKey(CodigoBarras)
-	descripcion 	= models.CharField(max_length=150,blank=True)
+	descripcion 	= models.TextField(max_length=150,blank=True)
 	fecha_salida	= models.DateField(auto_now = True)
 	tipo_salida 	= models.CharField(max_length=50,choices = traslados, default = "traslado")
 	producto 		= models.ForeignKey(Producto)
 	cantidad 		= models.IntegerField()
 	sede 			= models.ForeignKey(Sede)
-	numero_contrato = models.IntegerField()
+	numero_contrato = models.IntegerField(blank=True)
 
 
 	def __unicode__(self):
