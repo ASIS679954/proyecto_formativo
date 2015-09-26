@@ -123,7 +123,7 @@ class Salida(models.Model):
 	producto 		= models.ForeignKey(Producto)
 	cantidad 		= models.IntegerField()
 	sede 			= models.ForeignKey(Sede)
-	numero_contrato = models.IntegerField(blank=True)
+	numero_contrato = models.IntegerField(blank=True,null=True)
 
 
 	def __unicode__(self):

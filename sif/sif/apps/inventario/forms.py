@@ -45,10 +45,13 @@ class add_salida_form(forms.ModelForm):
 				raise forms.ValidationError(
 					"Tienes que especificar el numero del contrato"
 				)
+
 		return contrato
 	class Meta:
 		model = Salida
 		exclude = ('producto',)
+		fields = ['codigobarras','cantidad','tipo_salida','numero_contrato','sede','descripcion']
+
 		
 
 		
