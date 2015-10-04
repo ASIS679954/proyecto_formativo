@@ -4,13 +4,31 @@
 {% endblock %}
 
 {% block content %}
-	<p><b>Tipo Salida: </b> {{salida.tipo_salida}}</p>
-	<p><b>Producto: </b>{{salida.producto}}</p>
-	<p><b>Cantidad: </b>{{salida.cantidad}}</p>
-	<p><b>Sede: </b> {{salida.sede}}</p>
-	<p><b>Descripcion: </b>{{salida.descripcion}}</p>
-	<p><b>Numero Contrato: </b>{{salida.numero_contrato}}</p>
-	<p><b>Fecha salida: </b>{{salida.fecha_salida}}</p>
-
-	<a href= "{% url 'vista_salida' %}">Listar salidas</a>
+	<div class="row center" >
+        <div class="col s12 m7">
+          <div class="card Large">
+            <div class="card-image">
+              <img src="/media/{{salida.producto.imagen}}" height="250px">
+              <span class="card-title red">{{salida.producto.nombre}}</span>
+            </div>
+            <div class="card-content">
+            	<p><b>Salida número: </b> {{salida.id}}</p>
+            	<p><b>Tipo salida:</b> {{ salida.tipo_salida }} </p>
+            	{% if salida.descripcion == ""%}
+            		<p><b>Observacion: </b>Sin observaciones disponibles</p>
+            	{% else %}
+            		<p><b>Observacion:</b> {{ salida.descripcion }} </p>
+            	{% endif %}
+				<p><b>Fecha de ingreso</b> {{ salida.fecha_salida }}</p>
+				<p> <b>Cantidad:</b> {{ salida.cantidad }}</p>
+				<p><b>Sede :</b> {{salida.sede}}</p>
+				<p><b>Numero contraro: </b>{{salida.numero_contrato}}</p>
+            </div>
+            <div class="card-action">
+			   <a href= "{% url 'vista_salida' %}">Listar salidas</a>
+            </div>
+          </div>
+        </div>
+    </div>
+	
 {% endblock %}

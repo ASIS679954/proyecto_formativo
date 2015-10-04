@@ -5,20 +5,48 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Lista de salidas </h1>
-	<br>
-	<a href="{% url 'vista_agregar_salida' %}">Agregar nueva salida</a>
-	{% if salida %}
-		{%for i in salida %}
-			<p>
-				<b>Tipo Salida: </b> {{i.tipo_salida}}
-				<b>Sede: </b> {{i.sede}}
-				<b>Fecha salida: </b> {{i.fecha_salida}}
-				<a href="/salida/{{i.id}}">Ver</a>
-				<a href="/edit/salida/{{i.id}}">Editar</a>
-			</p>
-		{% endfor %}
+	<h2 align="center">Salidas </h2>
+	{% if user.is_authenticated %}
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_agregar_salida' %}"><i class="material-icons right">queue</i>Nuevo</a>
+	
+	<div class= "row">
+ 		<div >
+			{% if salida %}
+				<table class="highlight bordered striped centered">
+			        <thead>
+			          <tr>
+			              <th data-field="id">Tipo</th>
+			              <th data-field="name">Sede</th>
+			              <th data-field="price">Fecha</th>
+			              <th data-field="options">Producto</th>
+			              <th data-field="options">Opciones</th>
+			          </tr> 
+			        </thead>
+			        <tbody>
+			        	{%for i in salida %}
+				        	<tr>
+				        		<td>{{i.tipo_salida}}</td>
+				        		<td>{{i.sede}}</td>
+				        		<td>{{i.fecha_salida}}</td>
+				        		<td>{{i.producto}}</td>
+				        		<td><a  class="waves-effect waves-light " href="/salida/{{i.id}}"><i class="material-icons ">visibility</i>Ver</a>
+				        		{% if  user.is_superuser %}
+				        			<a  class="waves-effect waves-light" href="/edit/salida/{{i.id}}"><i class="material-icons ">description</i>Editar</a>
+				        		{% endif %}
+				        		</td>
+				        				          	
+				        	</tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5><b>No existen salidas disponibles</b></h5>
+			{% endif %}
+		</div>
+	</div>
 	{% else %}
-		<h3><b>No existen salidas disponibles</b></h3>
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
 	{% endif %}
 {% endblock %}

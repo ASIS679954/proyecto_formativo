@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+	Reporte por entrada
+{% endblock %}
+
+{% block content %}
+	<form action="." method="POST" enctype = "multiplar/form-data">
+		{% csrf_token %}
+		{{ form.as_p}}
+		<button type="submit" >Generar</button>
+		<input type="reset" value="Limpiar">
+	</form>
+	
+	{% if repor %}
+		<div class = "container ">
+			<table class= "bordered striped highlight centered">
+				<thead>
+					<tr>
+						<th>Fecha</th>
+						<th>Producto</th>
+						<th>Cantidad</th>
+						<th>Referencia</th>
+					</tr>
+				</thead>
+				{% for p in repor %}
+					<tbody>
+						asdsd
+						<td>{{ p.fecha_ingreso }}</td>
+						<td>{{ p.producto }}</td>
+						<td>{{ p.cantidad }}</td>
+						<td>{{ p.referencia.razon_social.ciudad }}</td>
+					</tbody>
+				{% endfor %}
+				
+			</table>
+		</div>
+	{% endif %}
+{% endblock %}

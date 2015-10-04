@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+	Iniciar sesion
+{% endblock %}
+
+{% block content %}
+	<form action="." method="POST" >  		
+		{% csrf_token %}
+		{{mensaje}}
+		{{form.as_p}}
+		{% if men %}
+			{{men}}
+			<br>
+			<br>
+		{% endif %}
+		<button class="btn waves-effect waves-light red darken-2" type="submit" >
+			<i class="material-icons left">supervisor_account</i>Iniciar Sesion
+		</button>
+		<br>
+		<br>
+	</form>
+
+{% endblock %}

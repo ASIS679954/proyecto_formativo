@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	{{ title }}
+{% endblock %}
+
+{% block content %}
+
+	<h2 align="center">Usuarios</h2>
+	<a  class="waves-effect waves-light btn" href="{% url 'vista_registro' %}"><i class="material-icons right">queue</i>Nuevo</a>	
+	<div class= "row">
+ 		<div >
+			{% if users %}
+				<table class="bordered striped highlight centered">
+			        <thead>
+			          <tr>
+			          	  <th data-field="id">Identificacion</th>
+			              <th data-field="fecha">Nombres</th>
+			              <th data-field="prod">Apellidos</th>
+			              <th data-field="cant">Telefono</th>
+			              <th data-field="tipo_user">Tipo Usuario</th>
+			              <th data-field= "options">Opciones</th>
+			          </tr> 
+			        </thead>
+			        <tbody>
+			        	{%for i in users %}
+				        	<tr>
+				        		<td>{{i.identificacion}}</td>
+				        		<td>{{i.nombre}}</td>
+				        		<td>{{i.apellido}}</td>
+				        		<td>{{i.telefono}}</td>
+				        		{% if i.user.is_superuser = True %}
+				        			<td> Administrador</td>
+				        		{% else %}
+				        			<td>Operador</td>
+				        		{% endif %}
+				        		<td ><a class="mdl-navigation__link " href="/usuario/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+						        <a class="mdl-navigation__link " href="/edit/user/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons " role="presentation">description</i>Editar</a>
+						        {% if i.user.is_active = True %}
+						        	<a href="/inh_user/{{i.id}}">Inhabilitar</a>
+						        {% else %}
+						        	<a href="/act_user/{{i.id}}">Habilitar</td>		          	
+						        {% endif %}
+				        	</tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>			    
+			{% else %}
+				<h5><b>No existen usuarios disponibles</b></h5>
+			{% endif %}
+			<br>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_lista_usuarios' %}"><i class="material-icons left">skip_previous</i>Regresar</a>	
+		</div>
+	</div>
+
+
+{% endblock %}

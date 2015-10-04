@@ -1,0 +1,30 @@
+{% extends 'base.html '%}
+
+{% block title %}
+	Agregar una Entrada
+{% endblock %}
+
+{% block content %}
+	<h5 align="center">Cambio de clave</h5>
+	{% if user.is_authenticated  and user.is_superuser = True %}
+		<form action="." method="POST" enctype = "multiplar/form-data">
+			{% csrf_token %}
+			{{ form.as_p}}
+			<button class="btn waves-effect waves-light red darken-2" type="submit" >Guardar
+				<i class="material-icons right">note_add</i>
+			</button>
+			<button class="btn waves-effect waves-light  red darken-2" type="reset" >Limpiar
+				<i class="material-icons right">loop</i>
+			</button>
+		</form>
+		<br>
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede crear una clave</p>
+		{% else %}
+			<P>Debes estar utenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+	{{ men }}
+{% endblock %}

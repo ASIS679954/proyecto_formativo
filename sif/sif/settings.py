@@ -13,12 +13,12 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
 		'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-		'NAME': 'base.sqlite3',                      # Or path to database file if using sqlite3.
+		'NAME': 'base_sif.sqlite3',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'root',
+        'USER': '',
         'PASSWORD': '',
-		'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',                      # Set to empty string for default.
+		'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
 
 
     }
@@ -36,7 +36,7 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
 SITE_ID = 1
 
@@ -131,9 +131,12 @@ INSTALLED_APPS = (
     'sif.apps.home',
     'sif.apps.inventario',
     'sif.apps.web_services.ws_producto',
+    'rest_framework',
     
 
 )
+
+AUTH_PROFILE_MODULE = ' home.Usuario'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
@@ -173,3 +176,8 @@ REST_FRAMEWORK = {
 
 }
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'yycampos@misena.edu.co'
+EMAIL_HOST_PASSWORD = '1117504269'
+EMAIL_USE_TLS = True

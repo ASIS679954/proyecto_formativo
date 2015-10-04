@@ -5,19 +5,50 @@
 {% endblock %}
 
 {% block content %}
-	<h1> Lista de Proveedores </h1>
-	<br>
-	<a href="{% url 'vista_agregar_proveedor' %}"> Agregar un nuevo Proveedor</a>
-	{% if proveedores %}
-		{% for p in proveedores %}	
-			<p>
-				Identificacion: {{p.identificacion}}
-				telefono :{{p.telefono}}
-				<a href="/edit/proveedor/{{p.id}}" > Editar </a>
-			</p>
-		{% endfor%}
-	{% else %}
-		<h2> No existen operadores</h2>
+	<h2 align="center">Proveedores </h2>
+	{% if user.is_authenticated and user.is_superuser %}
+		<a class="waves-effect waves-light btn" href="{% url 'vista_agregar_proveedor' %}"><i class="material-icons right">queue</i>Nuevo</a>
 	{% endif %}
+	{% if user.is_authenticated %}
+	<div class= "row">
+ 		<div >
+			{% if proveedores %}
+				<table class="bordered striped centered">
+			        <thead>
+			          <tr>
+			              <th data-field="id">Nombre</th>
+			              <th data-field="name">Apellido</th>
+			              <th data-field="price">Telefono</th>
+			              <th data-field = "refe"> Referencia </th>
+			              <th data-field="options">Opciones</th>
+			          </tr> 
+			        </thead>
 
+			        <tbody>
+			        	{% for p in proveedores %}	
+				          <tr>
+				          	<td>{{ p.nombre }}</td>
+				          	<td> {{ p.apellido }}</td>
+				            <td>{{p.telefono}}</td>
+				            <td>{{p.razon_social}}</td>
+				            <td ><a class="mdl-navigation__link " href="/proveedor/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+				            {% if  user.is_superuser %}
+								<a class="mdl-navigation__link " href="/edit/proveedor/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a>
+							{% endif %}
+							</td>				          	
+				          </tr>
+				        {% endfor%}
+			        </tbody>
+		      </table>
+			{% else %}
+				<h5> No existen operadores</h5>
+			{% endif %}
+		</div>
+	</div>
+	{% else %}
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
+	{% endif %}
+				
 {% endblock %}

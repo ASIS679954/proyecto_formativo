@@ -5,22 +5,48 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Lista de Entradas</h1>
-	<br>
-	<a href="{% url 'vista_agregar_entrada' %}"> Agregar una nueva entrada</a>
-	{% if entra %}
-		{% for p in entra %}	
-			<p>
-				ID : {{p.id}}
-				fecha: {{p.fecha_ingreso}}
-
-				<a href="/entrada/{{p.id}}"> Ver </a>
-				<a href="/edit/entrada/{{ p.id }}"> Editar </a>
-
-			</p>
-		{% endfor%}
+	<h2 align="center">Entradas</h2>
+	{% if user.is_authenticated %}
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_agregar_entrada' %}"><i class="material-icons right">queue</i>Nuevo</a>
+	
+	
+	<div class= "row">
+ 		<div >
+			{% if entra %}
+				<table class="bordered striped highlight centered">
+			        <thead>
+			          <tr>
+			          	  <th data-field="id">Id</th>
+			              <th data-field="fecha">Fecha</th>
+			              <th data-field="prod">Producto</th>
+			              <th data-field="cant">Cantidad</th>
+			              <th data-field="options">Opciones</th>
+			          </tr> 
+			        </thead>
+			        <tbody>
+			        	{%for i in entra %}
+				        	<tr>
+				        		<td>{{i.id}}</td>
+				        		<td>{{i.fecha_ingreso}}</td>
+				        		<td>{{i.producto}}</td>
+				        		<td>{{i.cantidad}}</td>
+				        		<td ><a class="mdl-navigation__link " href="/entrada/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+				        		{% if  user.is_superuser %}
+						       		 <a class="mdl-navigation__link " href="/edit/entrada/{{ i.id }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>	
+						        {% endif %}	          	
+				        	</tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5><b>No existen entradas disponibles</b></h5>
+			{% endif %}
+		</div>
+	</div>
 	{% else %}
-		<h2> No existen entradas </h2>
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
 	{% endif %}
-
+				
 {% endblock %}

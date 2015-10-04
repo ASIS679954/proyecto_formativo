@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from sif.apps.inventario.models import *
+from django.contrib.auth.models import User
 
 
 class producto_serializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = Producto
-		fields = ('url','nombre', 'cantidad','valor')
+		fields = ('url','imagen','nombre', 'cantidad','valor')
 
 class salida_producto_serializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
@@ -23,5 +24,9 @@ class sede_serializer(serializers.HyperlinkedModelSerializer):
 		model = Sede
 		fields = ('url','nombre_sede')
 
+class user_serializer(serializers.HyperlinkedModelSerializer):
+	class Meta:
+		model = User
+		fields = ('url','password','username','is_staff','is_superuser')
 
 

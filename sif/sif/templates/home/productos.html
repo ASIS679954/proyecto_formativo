@@ -1,27 +1,52 @@
 {% extends 'base.html' %}
 {% block title %}
-	CRUD Productos
+	Lista productos
 {% endblock %}
 
 {% block content %}
- 	<h2>Listar de Producto</h2>
- 	<br>
- 	<a href="{% url 'vista_agregar_producto' %}"> Agregar un nuevo producto </a>
- 	{% if Producto %}
- 		{% for p in Producto %}
-			<p> 
-				Nombre         : {{ p.nombre }}
-				Referencia     : {{ p.refrencia }}
-				Fecha ingreso  : {{ p.fecha_ingreso }}
-				Proveedor      : {{ p.proveedor }}
-				CodigoBarra    : {{ p.codigobarrar }}
-				Valor          : {{p.valor}}
-				<a href="/producto/{{p.id}}"> Ver </a>
-				<a class = "btn" href = "/edit/producto/{{p.id}}"> Editar </a>
-				<a class = "btn" href = "/alerta/{{p.id}}"> Eliminar </a>
-			</p>
- 		{% endfor %}	
- 	{% else %}
- 		<h3> No Exiten productos </h3>	
+ 	<h2 align="center">Productos</h2>
+ 	{% if user.is_authenticated and user.is_superuser %}
+ 		<a class="waves-effect waves-light btn" href="{% url 'vista_agregar_producto' %}"><i class="material-icons right">queue</i>Nuevo</a>
  	{% endif %}
+	{% if user.is_authenticated %}
+ 	<div class= "row">
+ 		<div >
+	 		{% if Producto %} 			
+	 			<table class = "striped bordered highlight centered ">
+			        <thead>
+			          	<tr>
+				            <th data-field="name">Nombre</th>
+				            <th data-field="referencia">Codigo</th>
+				            <th data-field="price">Valor</th>
+				            <th data-field="cantidad"> Cantidad</th>
+				            <th data-field="options">Opciones</th>
+			          	</tr>
+			        </thead>
+			        {% for p in Producto %}
+				        <tbody>
+				          	<tr>
+				          		<td>{{ p.nombre }}</td>
+				          		<td>{{ p.codigobarras }}</td>
+				          		<td>{{p.valor}}</td>
+				          		<td>{{p.cantidad}}</td>
+				          		<td ><a class="mdl-navigation__link " href="/producto/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+				          		{% if  user.is_superuser %}
+				          			<a class="mdl-navigation__link " href="/edit/producto/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>
+				          		{% endif %}
+				          	</tr>
+				        </tbody>
+			        {% endfor %}
+		        </table>
+		    {% else %}
+	 			<h3> No Exiten productos </h3>	
+		 	{% endif %}
+ 		</div>
+ 	</div>
+ 	{% else %}
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
+	{% endif %}
+ 			
+ 	
 {% endblock %} 		

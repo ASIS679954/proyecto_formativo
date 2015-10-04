@@ -5,12 +5,28 @@
 {% endblock %}
 
 {% block content %}
-	
-	<p><b>ID:</b> {{ entra.id }} </p>
-	<p><b>Fecha: </b>{{entra.fecha_ingreso}}</p>
-	<p><b>Obervacion:</b> {{ entra.observacion }} </p>
-	<p><b>Cantidad:</b> {{ entra.cantidad }} </p>
-	<p><b>Producto: </b>{{entra.producto}}</p>
-	<br>
-	<a href="/entradas">Mostrar la lista de entradas</a>
+	<div class="row center" >
+        <div class="col s12 m7">
+          <div class="card Large">
+            <div class="card-image">
+              <img src="/media/{{entra.producto.imagen}}" height="250px">
+              <span class="card-title red">{{entra.producto.nombre}}</span>
+            </div>
+            <div class="card-content">
+            	<p><b>Entrada número: </b> {{entra.id}}</p>
+            	<p><b>Referencia:</b> {{ entra.referencia }} </p>
+            	{% if entra.observacion == ""%}
+            		<p><b>Observacion: </b>Sin observaciones disponibles</p>
+            	{% else %}
+            		<p><b>Observacion:</b> {{ entra.observacion }} </p>
+            	{% endif %}
+				<p><b>Fecha de ingreso</b> {{ entra.fecha_ingreso }}</p>
+				<p> <b>Cantidad:</b> {{ entra.cantidad }}</p>
+            </div>
+            <div class="card-action">
+              <a  href="/entradas/">Lista de entradas</a>
+            </div>
+          </div>
+        </div>
+    </div>
 {% endblock %}

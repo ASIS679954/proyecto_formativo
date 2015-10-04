@@ -19,3 +19,7 @@ class codigo_viewset(viewsets.ModelViewSet):
 class sede_viewset(viewsets.ModelViewSet):
 	queryset = Sede.objects.all()
 	serializer_class = sede_serializer
+
+class user_viewset(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = user_serializer

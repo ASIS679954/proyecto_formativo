@@ -7,6 +7,7 @@ router.register(r'productos', producto_viewset)
 router.register(r'salida_producto', salida_producto_viewset)
 router.register(r'codigo_barras',codigo_viewset)
 router.register(r'sede',sede_viewset)
+router.register(r'user',user_viewset)
 
 
 urlpatterns = patterns('sif.apps.web_services.ws_producto.views',

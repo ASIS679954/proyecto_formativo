@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+	Lista de reportes
+{% endblock %}
+
+{% block content %}
+	<br>
+
+	<li><a href="{% url 'vista_reporte_entrada' %}">Reporte por entrada</a></li>
+	<li><a href="{% url 'vista_reporte_salida' %}">Reporte por salida</a></li>
+
+
+{% endblock %}

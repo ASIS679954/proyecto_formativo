@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	Registro de usuario
+{% endblock %}
+
+{% block content%}
+	<div class="row">
+		<h5>Registro de usuario</h5>
+		<form action="." method="POST">
+			{% csrf_token %}
+			{{ form_oper.as_p}}
+			{{ form.as_p}}
+			
+			<button type="submit">Registrar</button>
+		</form>
+			
+
+	</div>
+{% endblock %}

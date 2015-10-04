@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	 Editar Usuario
+	 
+{% endblock %}
+
+{% block content %}
+	<h5 align="center">Editar Usuario</h5>
+	{% if user.is_authenticated  and user.is_superuser = True %}
+	<a  class="waves-effect waves-light btn" href="/edit/pass/{{id}}"><i class="material-icons left medium">supervisor_account</i>Cambiar clave</a>
+	<form action="." method= "POST" enctype = "multipart/ form-data">
+		{% csrf_token %}
+		{{ form.as_p}}
+		<button class="btn waves-effect waves-light" type="submit" >Guardar
+			<i class="material-icons right">note_add</i>
+		</button>
+		
+		<button class="btn waves-effect waves-light" type="reset" >Limpiar
+			<i class="material-icons right">loop</i>
+		</button>
+	</form>
+	<br>
+	{{men}}
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede editar un usuario</p>
+		{% else %}
+			<P>Debes estar utenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+{% endblock %}

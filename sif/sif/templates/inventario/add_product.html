@@ -5,15 +5,29 @@
 {% endblock %}
 
 {% block content %}
-	<form action="." method="POST"> 
-		{% csrf_token %}
-		{{ form.as_p}}
-		<button type= "submit"> Guardar   </button>
-		<input type="reset" value="Limpiar"> 
-	</form>
-	<br>
+	<h5 align="center">Nuevo Producto</h5>
+	{% if user.is_authenticated  and user.is_superuser = True %}
+		<form action="." method="POST" enctype = "multipart/form-data"> 
+			{% csrf_token %}
+			{{ form.as_p}}
+			<button class="btn waves-effect waves-light" type="submit" >Guardar
+				<i class="material-icons right">note_add</i>
+			</button>
+			<button class="btn waves-effect waves-light" type="reset" >Limpiar
+				<i class="material-icons right">loop</i>
+			</button>
+		</form>
+		<br>
 
-	{{ info }} 
+		{{ info }} 
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede crear un producto </p>
+		{% else %}
+			<P>Debes estar utenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
 
 {% endblock %}
 	

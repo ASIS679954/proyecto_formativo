@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 import time
 import datetime
+from datetime import date
 from sif.apps.inventario.forms import *
 from sif.apps.inventario.models import *
 from django.http import HttpResponseRedirect
@@ -32,8 +33,6 @@ def ver_unico(request,id_cofre):
 	cofre = CodigoBarras.objects.get(id=id_cofre)
 	pp = Producto.objects.select_related().get(id)
 	ctx = {'cofre':cofre,'pp':pp}
-
-
 
 
 #Sedes
@@ -70,18 +69,20 @@ def edit_sede_view(request, id_sede):
 
 #Entradas
 def add_entrada_view(request):
+	fecha = date.today()
 	if request.method == "POST":
 		formulario = add_entrada_form(request.POST)
 		try:
 			if formulario.is_valid():
 				codigo = formulario.cleaned_data['codigobarras'] 
-				prod = Producto.objects.get(codigobarras=codigo)
+				prod = Producto.objects.get(codigobarras__codigo = codigo)
 				cant = formulario.cleaned_data['cantidad']
 				add = formulario.save(commit = False)
 				if (cant > 0):
 					prod.cantidad = prod.cantidad + cant
 					prod.save()
 					add.producto = prod
+					add.fecha_ingreso = fecha
 					add.save()
 					return HttpResponseRedirect('/entrada/%s' %add.id)
 				else:
@@ -143,49 +144,10 @@ def edit_entrada_view(request, id_entr):
 	ctx = {'form':  formulario}
 	return  render_to_response('inventario/edit_entrada.html', ctx, context_instance = RequestContext(request))
 
-#Operador
-def add_operador_view(request):
-	info = "inicializando"
-	if request.method =="POST":
-		formulario = add_operador_form(request.POST,request.FILES)
-		if formulario.is_valid():
-			add =formulario.save(commit = False)
-			add.save()
-			info = "Guardado satisfactoriamente"
-			return HttpResponseRedirect ('/operador/%s' %add.id)
-
-	else:
-		formulario = add_operador_form()
-	ctx = {'form':formulario,'informacion':info}
-	return render_to_response('inventario/add_operador.html',ctx,context_instance = RequestContext(request))
-
-
-def edit_operador_view(request,id_operador):
-	info=""
-	ope = Usuario.objects.get(pk = id_operador)
-	if request.method == "POST":
-		formulario = add_operador_form(request.POST,request.FILES,instance = ope)
-		if formulario.is_valid():
-			edit_ope = formulario.save(commit = False)
-			edit_ope.save
-			info = "Guardado satisfactoriamente"
-		return HttpResponseRedirect('/operador/%s'% edit_ope.id)
-	else:
-		formulario = add_operador_form(instance = ope)
-	ctx = {'form':formulario,'informacion':info}
-	return render_to_response('inventario/edit_operador.html',ctx,context_instance = RequestContext(request)) 
-
-
-def inhabilitar_operador_view(request,id_operador):
-	ope = Usuario.objects.get(pk = id_operador)
-	ope.estado = False
-	ope.save()
-	info = "inhabilitado "
-	return render_to_response('home/operador.html', context_instance = RequestContext(request)) #operarios es el nombre de mi url	
 
 #Salida
 def add_salida_view(request):
-			
+	fecha = date.today()
 	if request.method == 'POST':
 			formulario = add_salida_form(request.POST)
 			try:
@@ -198,6 +160,7 @@ def add_salida_view(request):
 						prod.cantidad = aux
 						prod.save()
 						add.producto = prod
+						add.fecha_salida = fecha
 						add.save()
 						return HttpResponseRedirect('/salida/%s' %add.id)
 					else:
@@ -409,4 +372,3 @@ def ver_unico_cod(request,id_cofre):
 	return render_to_response('inventario/muestraProducto.html',ctx,context_instance = RequestContext(request))
 
         
-

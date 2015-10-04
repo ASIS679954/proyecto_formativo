@@ -5,21 +5,46 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Lista de Sedes</h1>
-	<br>
-	<a href="{% url 'vista_agregar_sede' %}"> Agregar una nueva sede</a>
-	{% if sede %}
-		{% for p in sede %}	
-			<p>
-				Sede : {{p.nombre_sede}}
-				Telefono :{{p.telefono}}
-				<a href="/sede/{{p.id}}"> Ver </a>
-				<a href="/edit/sede/{{ p.id }}"> Editar </a>
-
-			</p>
-		{% endfor%}
-	{% else %}
-		<h2> No existen sedes </h2>
+	<h2 align="center">Sedes</h2>
+	{% if user.is_authenticated and user.is_superuser %}
+		<a class="waves-effect waves-light btn" href="{% url 'vista_agregar_sede' %}"><i class="material-icons right">queue</i>Nuevo</a>
 	{% endif %}
-
+	{% if user.is_authenticated %}
+	<div class= "row">
+ 		<div >
+			{% if sede %}
+				<table class="bordered striped centered highlight">
+			        <thead>
+			          <tr>
+			              <th data-field="id" >Sede</th>
+			              <th data-field="name">Telefono</th> 
+			              <th data-field="apellido">Direccion</th>
+			              {% if  user.is_superuser %}
+			              	<th data-field="options">Opcion</th>
+			              {% endif %}
+			          </tr> 
+			        </thead>
+			        <tbody>
+			          {% for p in sede %}	
+				          <tr>
+				        		<td>{{p.nombre_sede}}</td>	
+				        		<td>{{p.telefono}}</td>
+				        		<td>{{p.direccion}}</td>
+				        		{% if  user.is_superuser %}
+				        			<td><a class="mdl-navigation__link " href="/edit/sede/{{ p.id }}"><i class="mdl-	color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>		
+				        		{% endif %}          	
+				          </tr>
+			          {% endfor%}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5> No existen sedes </h5>
+			{% endif %}
+		</div>
+	</div>
+	{% else %}
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
+	{% endif %}
 {% endblock %}

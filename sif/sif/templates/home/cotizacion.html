@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	Generar cotizacion
+{% endblock %}
+
+{% block content %}
+	{% if info_enviado %}
+	<h2>lista</h2>
+	<br>
+	<h3>gracias</h3>
+		<p>nombre : {{ nombre }}</p> 
+		<p>apelido: {{ apellido }}</p>
+		<p>direccion: {{ direccion }}</p>
+		<p>telefono: {{ telefono }}</p>
+		<p>sede: {{ sede }}</p>	
+		<p>producto: {{ producto }}</p>
+		<p>cantida: {{ cantidad }}</p>
+		<p>observacion: {{ observacion }}</p>
+	{% else %}
+	<form action= "."method = "POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type = "submit" value = "listar"/>
+
+		{% if agregado == True %}
+			<input type = "submit" value = "Enviar Correo"/>
+		{% endif %}
+
+	</form>
+	{% endif %}
+{% endblock %}
